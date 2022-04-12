@@ -138,7 +138,7 @@ public class ResizeLine extends Line {
             end.toFront();
         });
 
-        super.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->  {
+        /*super.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->  {
             double offsetX = event.getSceneX() - lineX;
             double offsetY = event.getSceneY() - lineY;
 
@@ -163,7 +163,7 @@ public class ResizeLine extends Line {
             lineY = event.getSceneY();
         });
 
-        /*Line moveLine = new Line(0,0,0,0);
+        Line moveLine = new Line(0,0,0,0);
 
         group.getChildren().add(this);
 

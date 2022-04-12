@@ -23,19 +23,10 @@ public class HelloController {
     public double orgSceneY;
 
     @FXML
-    private Button classButton;
+    public Button addLineButton;
 
     @FXML
-    private Button lineButton;
-
-    @FXML
-    private Button lineButton1;
-
-    @FXML
-    private Button textButton;
-
-    @FXML
-    private Button saveButton;
+    public Button textButton;
 
     @FXML
     private Group mainGroup;
@@ -82,90 +73,6 @@ public class HelloController {
 
     }
 
-    private Line createLineV(double x, double y) {
-        Line line = new Line();
-        line.setStartX(x);
-        line.setStartY(y);
-        line.setEndX(x);
-        line.setEndY(y + 100);
-
-        line.setCursor(Cursor.HAND);
-
-        line.setOnMousePressed((t) -> {
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-
-            Line r = (Line) (t.getSource());
-            r.toFront();
-        });
-
-        line.setOnMouseDragged((t) -> {
-            double offsetX = t.getSceneX() - orgSceneX;
-            double offsetY = t.getSceneY() - orgSceneY;
-
-            Line r = (Line) (t.getSource());
-
-            r.setLayoutX(r.getLayoutX() + offsetX);
-            r.setLayoutY(r.getLayoutY() + offsetY);
-
-
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-        });
-
-        return line;
-    }
-
-    @FXML
-    public void addLineV() throws IOException {
-
-        Line l = createLineV(0, 100);
-
-        mainGroup.getChildren().add(l);
-    }
-
-    private Line createLineH(double x, double y) {
-        Line line = new Line();
-        line.setStartX(x);
-        line.setStartY(y);
-        line.setEndX(x  + 100);
-        line.setEndY(y);
-
-        line.setCursor(Cursor.HAND);
-
-        line.setOnMousePressed((t) -> {
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-
-            Line r = (Line) (t.getSource());
-            r.toFront();
-        });
-
-        line.setOnMouseDragged((t) -> {
-            double offsetX = t.getSceneX() - orgSceneX;
-            double offsetY = t.getSceneY() - orgSceneY;
-
-            Line r = (Line) (t.getSource());
-
-            r.setLayoutX(r.getLayoutX() + offsetX);
-            r.setLayoutY(r.getLayoutY() + offsetY);
-
-
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-        });
-
-        return line;
-    }
-
-    @FXML
-    public void addLineH() throws IOException {
-
-        Line l = createLineH(100, 0);
-
-        mainGroup.getChildren().add(l);
-    }
-
     private TextField createText(){
         TextField text = new TextField();
         text.setPrefWidth(60);
@@ -175,8 +82,6 @@ public class HelloController {
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
 
-            Line r = (Line) (t.getSource());
-            r.toFront();
         });
 
         text.setOnMouseDragged((t) -> {

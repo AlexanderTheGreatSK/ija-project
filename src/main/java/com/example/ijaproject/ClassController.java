@@ -6,39 +6,56 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
 
 
 public class ClassController {
     @FXML
-    public Button buttonAddEntity;
+    public Button buttonAddMethod;
 
     @FXML
-    public Button buttonArrayDown;
+    public Button buttonAddAttribute;
 
     @FXML
-    public ListView listViewAdd;
+    public ListView listViewAddMethod;
+
+    @FXML
+    public ListView listViewAddAttribute;
 
     @FXML
     private Pane paneMove;
 
     @FXML
-    protected void addEntity() {
-        System.out.println("HAAA");
-        paneMove.setMinHeight(paneMove.getHeight() + 10);
-        buttonAddEntity.setLayoutY(buttonAddEntity.getLayoutY() + 10);
-        listViewAdd.setMinHeight(listViewAdd.getHeight() + 10);
-        ObservableList observableList = listViewAdd.getItems();
+    protected void addMethod() {
+        paneMove.setMinHeight(paneMove.getHeight() + 24);
+        buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
+        buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
+        listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() + 24);
+        listViewAddAttribute.setLayoutY(listViewAddAttribute.getLayoutY() + 24);
+        ObservableList observableList = listViewAddMethod.getItems();
 
         TextField text = new TextField();
 
         observableList.add(text);
         text.setText("+");
 
-        listViewAdd.setItems(observableList);
+        listViewAddMethod.setItems(observableList);
 
     }
 
+    @FXML
+    protected void addAttribute() {
+        paneMove.setMinHeight(paneMove.getHeight() + 24);
+        buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
+        buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
+        listViewAddAttribute.setMinHeight(listViewAddAttribute.getHeight() + 24);
+        ObservableList observableList = listViewAddAttribute.getItems();
 
+        TextField text = new TextField();
 
+        observableList.add(text);
+        text.setText("+");
+
+        listViewAddAttribute.setItems(observableList);
+
+    }
 }
