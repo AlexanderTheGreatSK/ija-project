@@ -39,6 +39,7 @@ public class ClassController {
         text.setText("+");
 
         listViewAddMethod.setItems(observableList);
+        //sdadasd
 
     }
 
