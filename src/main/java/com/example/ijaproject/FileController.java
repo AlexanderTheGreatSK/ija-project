@@ -1,13 +1,16 @@
 package com.example.ijaproject;
 
+//TODO maybe delete, not up to date
+
 public class FileController {
     private String pathToFIle;
 
-    public FileController(String pathToFIle) {
-        this.pathToFIle = pathToFIle;
+    public FileController(String pathToFile) {
+        this.pathToFIle = pathToFile;
     }
 
-    public void updatePathToFIle(String newPath) {
+
+    public void updatePathToFile(String newPath) {
         this.pathToFIle = newPath;
     }
 

@@ -8,6 +8,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * @brief HelloApplication
+ *
+ * This constructor handles start of an application.
+ *
+ * @author xokruc00
+ * @version 1.0
+ */
 public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
