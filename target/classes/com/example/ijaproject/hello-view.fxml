@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1315.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ijaproject.HelloController">
+    <children>
+        <BorderPane layoutX="1007.0" prefHeight="810.0" prefWidth="307.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1007.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
+            <center>
+                <VBox alignment="CENTER" prefHeight="810.0" prefWidth="298.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <Label alignment="CENTER" contentDisplay="CENTER" text="Editor panel" textFill="#6b6868">
+                                    <font>
+                                        <Font name="System Bold Italic" size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="30.0" prefWidth="247.0">
+                            <VBox.margin>
+                                <Insets left="30.0" right="30.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <VBox prefHeight="535.0" prefWidth="307.0">
+                            <VBox.margin>
+                                <Insets left="50.0" right="50.0" />
+                            </VBox.margin>
+                            <children>
+                                <TextField prefHeight="30.0" prefWidth="207.0" promptText="Name" />
+                                <TextField prefHeight="30.0" prefWidth="207.0" promptText="X - axis" />
+                                <TextField prefHeight="30.0" prefWidth="207.0" promptText="Y - axis" />
+                            </children>
+                        </VBox>
+                        <HBox prefHeight="31.0" prefWidth="207.0">
+                            <children>
+                                <Label />
+                            </children>
+                        </HBox>
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="24.0" prefWidth="74.0" text="Update" />
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+        <Button layoutX="32.0" layoutY="22.0" mnemonicParsing="false" onAction="#addClass" text="Add class" fx:id="myButton"/>
+        <Pane layoutX="32.0" layoutY="67.0" prefHeight="699.0" prefWidth="1004.0" style="-fx-background-color: #bebebe;" fx:id="mainPane">
+            <children>
+                <ScrollBar layoutX="-2.0" layoutY="697.0" prefHeight="17.0" prefWidth="1004.0" />
+                <ScrollBar layoutX="986.0" orientation="VERTICAL" prefHeight="697.0" prefWidth="18.0" />
+            </children></Pane>
+    </children>
+</AnchorPane>
