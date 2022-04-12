@@ -3,6 +3,14 @@ package com.example.ijaproject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @brief UMLProject
+ *
+ * This constructor is backend for UML Project.
+ *
+ * @author xokruc00
+ * @version 1.0
+ */
 public class UMLProject {
     public String projectName;
 

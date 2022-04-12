@@ -18,6 +18,24 @@ import javafx.scene.shape.Shape;
 
 import java.io.IOException;
 
+
+/**
+ * @brief HelloController
+ *
+ * This controller is backend for hello-view frontend.
+ * GUI Controller includes how GUI will be build, and it handles user input. Buttons call one
+ * method which will run specific code based on button's label.
+ * There are six Buttons in this GUI - for adding:
+ *  class
+ *  text
+ *  association
+ *  aggregation
+ *  composition
+ *  generalization
+ *
+ * @author xkovac59, xokruc00
+ * @version 1.0
+ */
 public class HelloController {
     public double orgSceneX;
     public double orgSceneY;
@@ -29,13 +47,24 @@ public class HelloController {
     public Button textButton;
 
     @FXML
+    public Button classButton;
+
+    @FXML
     private Group mainGroup;
 
+    /**
+     * Method which handles pressing button "Add association" (onAction="#addLine").
+     * After pressing button "Add association" line will occur.
+     */
     @FXML
     public void addLine() {
         ResizeLine line = new ResizeLine(100,100,150,150, mainGroup);
     }
 
+    /**
+     * Method which handles pressing button "Add class" (onAction="#addClass").
+     * After pressing button "Add class" class from class.fxml will occur.
+     */
     @FXML
     public void addClass() throws IOException {
 
@@ -73,6 +102,9 @@ public class HelloController {
 
     }
 
+    /**
+     * Method for creating Text Field, which would be added to Pane after pressing "Add text".
+     */
     private TextField createText(){
         TextField text = new TextField();
         text.setPrefWidth(60);
@@ -100,6 +132,12 @@ public class HelloController {
         return text;
     }
 
+    /**
+     * Method which handles pressing button "Add text" (onAction="#addText").
+     * After pressing button "Add text" Text Field will occur.
+     *
+     * param actionEvent
+     */
     @FXML
     public void addText(ActionEvent actionEvent) {
 

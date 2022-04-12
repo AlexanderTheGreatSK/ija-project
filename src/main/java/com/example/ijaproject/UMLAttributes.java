@@ -1,5 +1,13 @@
 package com.example.ijaproject;
 
+/**
+ * @brief UMLAttributes
+ *
+ * This constructor is backend for UML Attributes.
+ *
+ * @author xokruc00
+ * @version 1.0
+ */
 public class UMLAttributes {
     private String name;
     private boolean isPublic;

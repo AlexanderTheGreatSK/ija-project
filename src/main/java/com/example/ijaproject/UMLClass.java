@@ -6,6 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
 
+/**
+ * @brief UMLClass
+ *
+ * This constructor is backend for UML Class.
+ *
+ * @author xokruc00
+ * @version 1.0
+ */
 public class UMLClass {
     private String name;
     private UMLClass superClass;

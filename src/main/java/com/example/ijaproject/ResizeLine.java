@@ -8,10 +8,18 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
 
+/**
+ * @brief HelloController
+ *
+ * This constructor is backend for creating resizable line.
+ *
+ * @author xkovac59, xokruc00
+ * @version 1.0
+ */
 public class ResizeLine extends Line {
 
-    private double mouseClickPozX;
-    private double mouseClickPozY;
+    //private double mouseClickPozX;
+    //private double mouseClickPozY;
 
     private Circle start;
     private Circle end;
@@ -27,6 +35,10 @@ public class ResizeLine extends Line {
     private Color active = Color.BLACK;
     private Color inActive = Color.WHITE;
 
+    /**
+     * Method which handles creating resizable line. Line has circles at the ends which allows resizing and moving line.
+     *
+     */
     public ResizeLine(double startX, double startY, double endX, double endY,  Group group) {
         super(startX, startY, endX, endY);
         super.setStrokeWidth(2);

@@ -7,8 +7,19 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
-
+/**
+ * @brief ClassController
+ *
+ * This controller is backend for class frontend.
+ * GUI Controller includes how GUI will be build, and it handles user input. Buttons call one
+ * method which will run specific code based on button's label. There are two Buttons in this GUI.
+ * One for adding methods and one for adding attributes to a class.
+ *
+ * @author xkovac59
+ * @version 1.0
+ */
 public class ClassController {
+
     @FXML
     public Button buttonAddMethod;
 
@@ -24,6 +35,13 @@ public class ClassController {
     @FXML
     private Pane paneMove;
 
+    /**
+     * Method which handles pressing button "+ Method" (onAction="#addMethod").
+     * After pressing button "+ Method" Pane and ListView listViewAddMethod will resize,
+     * TextField will be added to ListView listViewAddMethod
+     * and Button buttonAddMethod, Button buttonAddAttribute, ListView listViewAddMethod,
+     * and ListView listViewAddAttribute will change their y-coordinates.
+     */
     @FXML
     protected void addMethod() {
         paneMove.setMinHeight(paneMove.getHeight() + 24);
@@ -39,10 +57,16 @@ public class ClassController {
         text.setText("+");
 
         listViewAddMethod.setItems(observableList);
-        //sdadasd
 
     }
 
+    /**
+     * Method which handles pressing button "+ Attribute" (onAction="#addAttribute").
+     * After pressing button "+ Attribute" Pane and ListView listViewAddAttribute will resize,
+     * TextField will be added to ListView listViewAddAttribute
+     * and Button buttonAddMethod, Button buttonAddAttribute, ListView listViewAddMethod,
+     * and ListView listViewAddAttribute will change their y-coordinates.
+     */
     @FXML
     protected void addAttribute() {
         paneMove.setMinHeight(paneMove.getHeight() + 24);
