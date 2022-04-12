@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.ijaproject.Class"
-            prefHeight="400.0" prefWidth="600.0" >
-
-</AnchorPane>
+<Pane fx:id="paneMove" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="117.0" style="-fx-background-color: #89CFF0;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ijaproject.ClassController">
+    <children>
+        <TextField layoutX="3.0" layoutY="8.0" prefHeight="24.0" prefWidth="110.0" promptText="Name" />
+        <Button fx:id="buttonAddEntity" defaultButton="true" layoutX="16.0" layoutY="134.0" mnemonicParsing="false" onAction="#addEntity" text="Add Entity" underline="true" />
+        <ListView fx:id="listViewAdd" layoutX="3.0" layoutY="33.0" prefHeight="93.0" prefWidth="110.0" />
+    </children>
+</Pane>
