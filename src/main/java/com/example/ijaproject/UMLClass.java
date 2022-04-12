@@ -13,11 +13,17 @@ public class UMLClass {
     private double posX;
     private double posY;
 
-    private List<UMLAttributes> attributes = new ArrayList<UMLAttributes>();
-    private List<UMLAttributes> methods = new ArrayList<UMLAttributes>();
+    private List<UMLAttributes> attributes = new ArrayList<>();
+    private List<UMLAttributes> methods = new ArrayList<>();
 
 
     public UMLClass(String name, double posX, double posY) {
+        this.name = name;
+        this.posX = posX;
+        this.posY = posY;
+    }
+
+    public UMLClass(String name) {
         this.name = name;
     }
 

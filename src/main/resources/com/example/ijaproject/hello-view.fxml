@@ -11,6 +11,7 @@
         <Button fx:id="lineButton" layoutX="123.0" layoutY="22.0" mnemonicParsing="false" onAction="#addLineV" prefHeight="24.0" prefWidth="80.0" text="Add line |" />
         <Button fx:id="lineButton1" layoutX="218.0" layoutY="22.0" mnemonicParsing="false" onAction="#addLineH" prefHeight="24.0" prefWidth="90.0" text="Add line —" />
         <Button fx:id="textButton" layoutX="321.0" layoutY="22.0" mnemonicParsing="false" onAction="#addText" prefHeight="24.0" prefWidth="80.0" text="Add text" />
+        <Button fx:id="readButton" layoutX="321.0" layoutY="22.0" mnemonicParsing="false" onAction="#read" prefHeight="24.0" prefWidth="80.0" text="Read" />
         <Button fx:id="saveButton" layoutX="1240.0" layoutY="22.0" mnemonicParsing="false" onAction="#addLine" text="Save" />
     </children>
 </AnchorPane>

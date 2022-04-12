@@ -124,6 +124,17 @@ public class HelloController {
         mainGroup.getChildren().add(l);
     }
 
+    @FXML
+    public void read() {
+        FileHandler fileHandler = new FileHandler("proj1.json");
+
+        try {
+            UMLProject umlProject = fileHandler.read();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private Line createLineH(double x, double y) {
         Line line = new Line();
         line.setStartX(x);

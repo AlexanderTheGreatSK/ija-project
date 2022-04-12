@@ -17,4 +17,17 @@ public class UMLProject {
         this.classes = classes;
     }
 
+    public void addClass(UMLClass newClass) throws Exception {
+        if(classes.isEmpty()) {
+            classes.add(newClass);
+        } else {
+            for(int i = 0; i < classes.size(); i++) {
+                if(newClass.getName() == classes.get(i).getName()) {
+                    throw new Exception();
+                }
+            }
+            this.classes.add(newClass);
+        }
+    }
+
 }
