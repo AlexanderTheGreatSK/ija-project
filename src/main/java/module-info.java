@@ -4,7 +4,6 @@ module com.example.ijaproject {
     requires jdk.jsobject;
     requires com.google.gson;
 
-
     opens com.example.ijaproject to javafx.fxml;
     exports com.example.ijaproject;
 }

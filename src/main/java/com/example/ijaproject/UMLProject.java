@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @brief UMLProject
+ * UMLProject
  *
  * This constructor is backend for UML Project.
  *

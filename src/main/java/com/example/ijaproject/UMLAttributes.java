@@ -1,7 +1,7 @@
 package com.example.ijaproject;
 
 /**
- * @brief UMLAttributes
+ * UMLAttributes
  *
  * This constructor is backend for UML Attributes.
  *

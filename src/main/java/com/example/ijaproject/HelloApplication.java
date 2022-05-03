@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * @brief HelloApplication
+ * HelloApplication
  *
  * This constructor handles start of an application.
  *

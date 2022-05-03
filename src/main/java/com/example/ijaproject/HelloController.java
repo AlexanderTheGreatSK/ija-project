@@ -20,7 +20,7 @@ import java.io.IOException;
 
 
 /**
- * @brief HelloController
+ * HelloController
  *
  * This controller is backend for hello-view frontend.
  * GUI Controller includes how GUI will be build, and it handles user input. Buttons call one
@@ -136,7 +136,7 @@ public class HelloController {
      * Method which handles pressing button "Add text" (onAction="#addText").
      * After pressing button "Add text" Text Field will occur.
      *
-     * param actionEvent
+     * @param actionEvent
      */
     @FXML
     public void addText(ActionEvent actionEvent) {

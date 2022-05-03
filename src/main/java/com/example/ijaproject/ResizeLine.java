@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
 
 /**
- * @brief HelloController
+ * HelloController
  *
  * This constructor is backend for creating resizable line.
  *

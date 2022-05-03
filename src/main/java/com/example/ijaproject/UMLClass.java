@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.jar.Attributes;
 
 /**
- * @brief UMLClass
+ * UMLClass
  *
  * This constructor is backend for UML Class.
  *

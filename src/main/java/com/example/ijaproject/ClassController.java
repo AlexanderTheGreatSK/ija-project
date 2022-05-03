@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 /**
- * @brief ClassController
+ * ClassController
  *
  * This controller is backend for class frontend.
  * GUI Controller includes how GUI will be build, and it handles user input. Buttons call one

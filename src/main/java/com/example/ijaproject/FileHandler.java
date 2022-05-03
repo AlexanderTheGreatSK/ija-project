@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 /**
- * @brief FileHandler
+ * FileHandler
  *
  * This controller is json handler from input file and json generator to output file.
  *
@@ -27,7 +27,6 @@ public class FileHandler {
     /**
      * Method to read and parse json from file to UMLProject class
      *
-     * @brief pathToFile
      */
     public UMLProject read() {
 
