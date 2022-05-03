@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,6 +31,8 @@ public class FileHandler {
      */
     public UMLProject read() {
 
+        System.out.println("Reading file");
+
         Gson gson = new Gson();
         UMLProject umlProject;
         try {
@@ -47,19 +50,38 @@ public class FileHandler {
                 Map<? , ?> content = (Map<?, ?>) entry.getValue();
 
                 System.out.println(content);
-                umlClass.updatePosition(Double.parseDouble(content.get("X").toString()),Double.parseDouble(content.get("Y").toString()));
+                umlClass.updatePosition((double) content.get("X"), (double) content.get("Y"));
+                System.out.println(content.get("X").toString() + " " + content.get("Y").toString());
+                if(content.get("Operation") != null && content.get("Operation") != "null") {
+                    Map<? , ?> operation = (Map<?, ?>) content.get("Operation");
+                    umlClass.setOperation(new UMLOperation((String) operation.get("Name"), (String) operation.get("Target")));
+                }
+                System.out.println("HERE");
 
-                //umlClass.setSuperClass();
+                List<Map<? , ?>> attributes = (List<Map<? , ?>>) content.get("Attributes");
+
+                for(int i = 0; i < attributes.size(); i++) {
+                    umlClass.addAttribute(new UMLAttributes((String) attributes.get(i).get("Name"), (boolean) attributes.get(i).get("IsPublic")));
+                }
+
+                List<Map<? , ?>> methods = (List<Map<? , ?>>) content.get("Methods");
+
+                for(int i = 0; i < methods.size(); i++) {
+                    umlClass.addAttribute(new UMLAttributes((String) methods.get(i).get("Name"), (boolean) methods.get(i).get("IsPublic")));
+                }
+                try {
+                    umlProject.addClass(umlClass);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
 
-
-
             reader.close();
+            return umlProject;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return new UMLProject("sd");
+        return null;
     }
 
 

@@ -2,6 +2,7 @@ package com.example.ijaproject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * UMLProject
@@ -36,6 +37,41 @@ public class UMLProject {
             }
             this.classes.add(newClass);
         }
+    }
+
+    public void debugPrint() {
+        List<UMLAttributes> attributes;
+        List<UMLAttributes> methods;
+        Map<String, Double> pos;
+        UMLOperation operation;
+
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("Name of project: " + this.projectName);
+        for(int i = 0; i < this.classes.size(); i++) {
+            System.out.println("---------------------------------------------------------------");
+            System.out.println(i + " Class name: " + this.classes.get(i).getName());
+            pos = this.classes.get(i).getPosition();
+            System.out.println(i + " Class X: " + pos.get("X") + " Y: " + pos.get("Y"));
+            operation = this.classes.get(i).getOperation();
+            if(operation != null) {
+                System.out.println(i + " Class operation: " + operation.getName() + " target: " + operation.getTarget());
+            } else {
+                System.out.println("Operation null");
+            }
+            attributes = this.classes.get(i).getAttributes();
+            methods = this.classes.get(i).getMethods();
+
+            for(int j = 0; j < attributes.size(); j++) {
+                System.out.println(j + " Attribute name: " + attributes.get(j).getName() + " is public: " + attributes.get(j).getIsPublic());
+            }
+
+            for(int j = 0; j < methods.size(); j++) {
+                System.out.println(j + " Method name: " + methods.get(j).getName() + " is public: " + methods.get(j).getIsPublic());
+            }
+
+        }
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------");
     }
 
 }

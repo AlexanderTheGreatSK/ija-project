@@ -35,4 +35,11 @@ public class UMLAttributes {
         this.isPublic = isPublic;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public boolean getIsPublic() {
+        return this.isPublic;
+    }
 }

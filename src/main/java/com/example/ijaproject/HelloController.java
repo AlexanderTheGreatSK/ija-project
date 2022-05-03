@@ -102,6 +102,14 @@ public class HelloController {
 
     }
 
+    @FXML
+    private void openFile() {
+        FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
+        UMLProject umlProject = fileHandler.read();
+        umlProject.debugPrint();
+        // here we need to call method for drawing that uml project
+    }
+
     /**
      * Method for creating Text Field, which would be added to Pane after pressing "Add text".
      */

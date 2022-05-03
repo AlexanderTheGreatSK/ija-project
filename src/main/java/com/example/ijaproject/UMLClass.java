@@ -16,7 +16,7 @@ import java.util.jar.Attributes;
  */
 public class UMLClass {
     private String name;
-    private UMLClass superClass;
+    private UMLOperation operation;
 
     private double posX;
     private double posY;
@@ -42,8 +42,8 @@ public class UMLClass {
 
     public Map<String, Double> getPosition() {
         Map<String, Double> position = new IdentityHashMap<String, Double>();
-        position.put("x", posX);
-        position.put("y", posY);
+        position.put("X", posX);
+        position.put("Y", posY);
 
         return position;
     }
@@ -56,9 +56,21 @@ public class UMLClass {
         return this.name;
     }
 
-    //TODO change
-    public void setSuperClass(UMLClass superClass) {
-        this.superClass = superClass;
+    public void setOperation(UMLOperation operation) {
+        this.operation = operation;
+    }
+
+    public UMLOperation getOperation() {
+        if(this.operation == null) {
+            return null;
+        } else {
+            return this.operation;
+        }
+
+    }
+
+    public void removeOperation() {
+        this.operation = null;
     }
 
     public void addAttribute(UMLAttributes attribute) {
