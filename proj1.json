@@ -1,60 +1,58 @@
 {
   "ProjectName" : "proj1",
-  "Project" : {
-    "ClassDiagram": {
-        "cls1": {
-          "X": 50.00,
-          "Y": 50.00,
-          "Operation": {
-            "Name" : "asociatization",
-            "Target" : "cls2"
-          },
-          "Attributes": [
-            {
-              "Name": "attr1",
-              "IsPublic": true
-            },
-            {
-              "Name": "attr2",
-              "IsPublic": false
-            }
-          ],
-          "Methods": [
-            {
-              "Name": "met1",
-              "IsPublic": true
-            },
-            {
-              "Name": "met2",
-              "IsPublic": false
-            }
-          ]
+  "ClassDiagram": {
+    "cls1": {
+      "X": 50.00,
+      "Y": 50.00,
+      "Operation": {
+        "Name" : "asociatization",
+        "Target" : "cls2"
+      },
+      "Attributes": [
+        {
+          "Name": "attr1",
+          "IsPublic": true
         },
-        "cls2": {
-          "X": 100.00,
-          "Y": 100.00,
-          "Operation": null,
-          "Attributes": [
-            {
-              "Name": "attr1",
-              "IsPublic": true
-            },
-            {
-              "Name": "attr2",
-              "IsPublic": false
-            }
-          ],
-          "Methods": [
-            {
-              "Name": "met1",
-              "IsPublic": true
-            },
-            {
-              "Name": "met2",
-              "IsPublic": false
-            }
-          ]
+        {
+          "Name": "attr2",
+          "IsPublic": false
         }
+      ],
+      "Methods": [
+        {
+          "Name": "met1",
+          "IsPublic": true
+        },
+        {
+          "Name": "met2",
+          "IsPublic": false
+        }
+      ]
+    },
+    "cls2": {
+      "X": 100.00,
+      "Y": 100.00,
+      "Operation": null,
+      "Attributes": [
+        {
+          "Name": "attr1",
+          "IsPublic": true
+        },
+        {
+          "Name": "attr2",
+          "IsPublic": false
+        }
+      ],
+      "Methods": [
+        {
+          "Name": "met1",
+          "IsPublic": true
+        },
+        {
+          "Name": "met2",
+          "IsPublic": false
+        }
+      ]
     }
   }
 }

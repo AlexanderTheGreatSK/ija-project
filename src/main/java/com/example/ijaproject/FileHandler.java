@@ -1,6 +1,7 @@
 package com.example.ijaproject;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -39,11 +40,8 @@ public class FileHandler {
             Reader reader = Files.newBufferedReader(Paths.get(this.file));
 
             Map<String, ?> map = gson.fromJson(reader, Map.class);
-
             umlProject = new UMLProject((String) map.get("ProjectName"));
-
-            Map<?, ?> project = (Map<?, ?>) map.get("Project");
-            Map<?, ?> classDiagram = (Map<?, ?>) project.get("ClassDiagram");
+            Map<?, ?> classDiagram = (Map<?, ?>) map.get("ClassDiagram");
 
             for (Map.Entry<?, ?> entry : classDiagram.entrySet()) {
                 UMLClass umlClass = new UMLClass(entry.getKey().toString());
@@ -67,7 +65,7 @@ public class FileHandler {
                 List<Map<? , ?>> methods = (List<Map<? , ?>>) content.get("Methods");
 
                 for(int i = 0; i < methods.size(); i++) {
-                    umlClass.addAttribute(new UMLAttributes((String) methods.get(i).get("Name"), (boolean) methods.get(i).get("IsPublic")));
+                    umlClass.addMethod(new UMLAttributes((String) methods.get(i).get("Name"), (boolean) methods.get(i).get("IsPublic")));
                 }
                 try {
                     umlProject.addClass(umlClass);
@@ -82,6 +80,27 @@ public class FileHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void save(UMLProject umlProject) {
+        Gson gson = new Gson();
+        String out;
+
+        if(umlProject != null) {
+            gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+            out = gson.toJson(umlProject);
+            System.out.println(out);
+        } else {
+            out = "";
+        }
+
+        try {
+            FileWriter myWriter = new FileWriter(this.file);
+            myWriter.write(out);
+            myWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -1,5 +1,8 @@
 package com.example.ijaproject;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -15,14 +18,26 @@ import java.util.jar.Attributes;
  * @version 1.0
  */
 public class UMLClass {
-    private String name;
-    private UMLOperation operation;
+    @Expose
+    @SerializedName("Name")
+    public String name;
+    @Expose
+    @SerializedName("Operation")
+    public UMLOperation operation;
 
-    private double posX;
-    private double posY;
+    @Expose
+    @SerializedName("X")
+    public double posX;
+    @Expose
+    @SerializedName("Y")
+    public double posY;
 
-    private List<UMLAttributes> attributes = new ArrayList<>();
-    private List<UMLAttributes> methods = new ArrayList<>();
+    @Expose
+    @SerializedName("Attributes")
+    public List<UMLAttributes> attributes = new ArrayList<>();
+    @Expose
+    @SerializedName("Methods")
+    public List<UMLAttributes> methods = new ArrayList<>();
 
 
     public UMLClass(String name, double posX, double posY) {

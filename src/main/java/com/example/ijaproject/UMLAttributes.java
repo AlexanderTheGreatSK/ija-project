@@ -1,5 +1,8 @@
 package com.example.ijaproject;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * UMLAttributes
  *
@@ -9,8 +12,12 @@ package com.example.ijaproject;
  * @version 1.0
  */
 public class UMLAttributes {
-    private String name;
-    private boolean isPublic;
+    @Expose
+    @SerializedName("Name")
+    public String name;
+    @Expose
+    @SerializedName("IsPublic")
+    public boolean isPublic;
 
     public UMLAttributes(String name, boolean isPublic) {
         this.name = name;

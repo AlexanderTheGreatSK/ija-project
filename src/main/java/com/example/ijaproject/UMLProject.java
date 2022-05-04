@@ -1,5 +1,8 @@
 package com.example.ijaproject;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +16,13 @@ import java.util.Map;
  * @version 1.0
  */
 public class UMLProject {
+    @Expose
+    @SerializedName("ProjectName")
     public String projectName;
 
-    private List<UMLClass> classes = new ArrayList<UMLClass>();
+    @Expose
+    @SerializedName("ClassDiagram")
+    public List<UMLClass> classes = new ArrayList<UMLClass>();
 
     public UMLProject(String projectName) {
         this.projectName = projectName;
@@ -61,16 +68,24 @@ public class UMLProject {
             attributes = this.classes.get(i).getAttributes();
             methods = this.classes.get(i).getMethods();
 
-            for(int j = 0; j < attributes.size(); j++) {
-                System.out.println(j + " Attribute name: " + attributes.get(j).getName() + " is public: " + attributes.get(j).getIsPublic());
+            if(attributes != null) {
+                for(int j = 0; j < attributes.size(); j++) {
+                    System.out.println(j + " Attribute name: " + attributes.get(j).getName() + " is public: " + attributes.get(j).getIsPublic());
+                }
+            } else {
+                System.out.println("Arguments null");
             }
 
-            for(int j = 0; j < methods.size(); j++) {
-                System.out.println(j + " Method name: " + methods.get(j).getName() + " is public: " + methods.get(j).getIsPublic());
+            if(methods != null) {
+                for(int j = 0; j < methods.size(); j++) {
+                    System.out.println(j + " Method name: " + methods.get(j).getName() + " is public: " + methods.get(j).getIsPublic());
+                }
+            } else {
+                System.out.println("Methods null");
             }
+
 
         }
-        System.out.println("---------------------------------------------------------------");
         System.out.println("---------------------------------------------------------------");
     }
 

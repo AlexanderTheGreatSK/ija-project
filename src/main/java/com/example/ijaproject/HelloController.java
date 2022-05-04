@@ -40,6 +40,8 @@ public class HelloController {
     public double orgSceneX;
     public double orgSceneY;
 
+    FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
+
     @FXML
     public Button addLineButton;
 
@@ -69,7 +71,6 @@ public class HelloController {
     public void addClass() throws IOException {
 
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("class.fxml"));
-
         Pane pane = loader.load();
 
         pane.setLayoutX(150);
@@ -104,10 +105,16 @@ public class HelloController {
 
     @FXML
     private void openFile() {
-        FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
-        UMLProject umlProject = fileHandler.read();
+        FileHandler fileHandler2 = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1SAVED.json");
+        UMLProject umlProject = this.fileHandler.read();
         umlProject.debugPrint();
         // here we need to call method for drawing that uml project
+        fileHandler2.save(umlProject);
+    }
+
+    @FXML
+    private void save() {
+
     }
 
     /**

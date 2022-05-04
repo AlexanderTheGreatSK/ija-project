@@ -1,8 +1,15 @@
 package com.example.ijaproject;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class UMLOperation {
-    private String name;
-    private String target;
+    @Expose
+    @SerializedName("Name")
+    public String name;
+    @Expose
+    @SerializedName("Target")
+    public String target;
 
     public UMLOperation(String name, String target) {
         this.name = name;
