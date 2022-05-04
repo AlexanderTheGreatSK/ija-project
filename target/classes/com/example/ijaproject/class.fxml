@@ -4,13 +4,18 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 
-<Pane fx:id="paneMove" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="164.0" prefWidth="265.0" style="-fx-background-color: #89CFF0;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ijaproject.ClassController">
+<Pane fx:id="paneMove" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="183.0" prefWidth="295.0" style="-fx-background-color: #89CFF0;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ijaproject.ClassController">
     <children>
-        <TextField layoutX="3.0" layoutY="8.0" prefHeight="24.0" prefWidth="258.0" promptText="Name" />
-        <Button fx:id="buttonAddMethod" defaultButton="true" layoutX="5.0" layoutY="129.0" mnemonicParsing="false" onAction="#addMethod" prefHeight="24.0" prefWidth="101.0" text="+ Method" underline="true" />
-        <Button fx:id="buttonAddAttribute" defaultButton="true" layoutX="159.0" layoutY="129.0" mnemonicParsing="false" onAction="#addAttribute" prefHeight="24.0" prefWidth="101.0" text="+ Atribute" underline="true" />
-      <ListView fx:id="listViewAddMethod" layoutX="3.0" layoutY="33.0" prefHeight="42.0" prefWidth="258.0" />
-      <ListView fx:id="listViewAddAttribute" layoutX="3.0" layoutY="75.0" prefHeight="42.0" prefWidth="258.0" />
+        <TextField layoutX="19.0" layoutY="30.0" prefHeight="24.0" prefWidth="258.0" promptText="Name" />
+        <Button fx:id="buttonAddMethod" defaultButton="true" layoutX="19.0" layoutY="147.0" mnemonicParsing="false" onAction="#addMethod" prefHeight="24.0" prefWidth="101.0" text="+ Method" underline="true" />
+        <Button fx:id="buttonAddAttribute" defaultButton="true" layoutX="176.0" layoutY="147.0" mnemonicParsing="false" onAction="#addAttribute" prefHeight="24.0" prefWidth="101.0" text="+ Atribute" underline="true" />
+      <ListView fx:id="listViewAddMethod" layoutX="19.0" layoutY="54.0" prefHeight="42.0" prefWidth="258.0" />
+      <ListView fx:id="listViewAddAttribute" layoutX="19.0" layoutY="96.0" prefHeight="42.0" prefWidth="258.0" />
+      <Circle fill="WHITE" layoutX="9.0" layoutY="75.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="WHITE" layoutX="285.0" layoutY="75.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circle" fill="WHITE" layoutX="148.0" layoutY="170.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="WHITE" layoutX="148.0" layoutY="13.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
     </children>
 </Pane>

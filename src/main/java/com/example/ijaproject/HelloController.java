@@ -61,6 +61,11 @@ public class HelloController {
         ResizeLine line = new ResizeLine(100,100,150,150, mainGroup);
     }
 
+    @FXML
+    public void aggregation() {
+        Aggregation aggregation = new Aggregation(100,100,150,150, mainGroup);
+    }
+
     /**
      * Method which handles pressing button "Add class" (onAction="#addClass").
      * After pressing button "Add class" class from class.fxml will occur.

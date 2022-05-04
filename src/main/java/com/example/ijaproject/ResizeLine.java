@@ -150,6 +150,10 @@ public class ResizeLine extends Line {
             end.toFront();
         });
 
+        start.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
+
+        });
+
         /*super.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->  {
             double offsetX = event.getSceneX() - lineX;
             double offsetY = event.getSceneY() - lineY;

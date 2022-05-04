@@ -3,14 +3,15 @@ package com.example.ijaproject;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
 
 public class Aggregation extends Line {
 
-    private Circle start;
+    private Polygon start;
     private Circle end;
 
     private double lineX;
@@ -32,9 +33,15 @@ public class Aggregation extends Line {
         super(startX, startY, endX, endY);
         super.setStrokeWidth(2);
 
-        start = new Circle(startX, startY, 5);
-        start.setStroke(inActive);
+        start = new Polygon();
+        start.getPoints().addAll(startX + 35.0, startY + 10.0,
+                startX + 50.0, startY + 20.0,
+                startX + 35.0, startY + 30.0,
+                startX + 20.0, startY + 20.0);
+
+        start.setStroke(active);
         start.setFill(inActive);
+
         end = new Circle(endX, endY, 5);
         end.setStroke(inActive);
         end.setFill(inActive);
@@ -51,7 +58,7 @@ public class Aggregation extends Line {
         });
 
         super.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-            start.setStroke(inActive);
+            start.setStroke(active);
             start.setFill(inActive);
             end.setStroke(inActive);
             end.setFill(inActive);
@@ -65,7 +72,7 @@ public class Aggregation extends Line {
         });
 
         start.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-            start.setStroke(inActive);
+            start.setStroke(active);
             start.setFill(inActive);
             end.setStroke(inActive);
             end.setFill(inActive);
@@ -79,7 +86,7 @@ public class Aggregation extends Line {
         });
 
         end.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
-            start.setStroke(inActive);
+            start.setStroke(active);
             start.setFill(inActive);
             end.setStroke(inActive);
             end.setFill(inActive);

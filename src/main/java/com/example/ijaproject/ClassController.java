@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 /**
  * @brief ClassController
@@ -33,6 +34,9 @@ public class ClassController {
     public ListView listViewAddAttribute;
 
     @FXML
+    public Circle circle;
+
+    @FXML
     private Pane paneMove;
 
     /**
@@ -48,6 +52,7 @@ public class ClassController {
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
         listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() + 24);
+        circle.setLayoutY(circle.getLayoutY() + 24);
         listViewAddAttribute.setLayoutY(listViewAddAttribute.getLayoutY() + 24);
         ObservableList observableList = listViewAddMethod.getItems();
 
@@ -73,6 +78,7 @@ public class ClassController {
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
         listViewAddAttribute.setMinHeight(listViewAddAttribute.getHeight() + 24);
+        circle.setLayoutY(circle.getLayoutY() + 24);
         ObservableList observableList = listViewAddAttribute.getItems();
 
         TextField text = new TextField();
