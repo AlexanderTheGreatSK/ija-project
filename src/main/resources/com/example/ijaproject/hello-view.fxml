@@ -12,7 +12,7 @@
         <Button fx:id="textButton" mnemonicParsing="false" onAction="#addText" prefHeight="24.0" prefWidth="80.0" text="Add text" />
         <Button fx:id="addLineButton" mnemonicParsing="false" onAction="#addLine" text="Add association" />
         <Button mnemonicParsing="false" onAction="#aggregation" text="Add aggregation" />
-        <Button mnemonicParsing="false" text="Add composition" />
+        <Button mnemonicParsing="false" onAction="#composition" text="Add composition" />
         <Button mnemonicParsing="false" text="Add generalization" />
       <Button mnemonicParsing="false" text="Open" />
       <Button mnemonicParsing="false" text="Save" />

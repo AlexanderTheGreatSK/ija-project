@@ -151,4 +151,9 @@ public class HelloController {
         mainGroup.getChildren().add(t);
 
     }
+
+    @FXML
+    public void composition(ActionEvent actionEvent) {
+        Composition composition = new Composition(100,100,150,150, mainGroup);
+    }
 }
