@@ -24,6 +24,10 @@ public class UMLProject {
     @SerializedName("ClassDiagram")
     public List<UMLClass> classes = new ArrayList<UMLClass>();
 
+    @Expose
+    @SerializedName("SequenceDiagram")
+    public List<UMLSequenceDiagram> sequenceDiagrams = new ArrayList<UMLSequenceDiagram>();
+
     public UMLProject(String projectName) {
         this.projectName = projectName;
     }
@@ -31,6 +35,12 @@ public class UMLProject {
     public UMLProject(String projectName, List<UMLClass> classes) {
         this.projectName = projectName;
         this.classes = classes;
+    }
+
+    public UMLProject(String projectName, List<UMLClass> classes, List<UMLSequenceDiagram> sequenceDiagrams) {
+        this.projectName = projectName;
+        this.classes = classes;
+        this.sequenceDiagrams = sequenceDiagrams;
     }
 
     public void addClass(UMLClass newClass) throws Exception {

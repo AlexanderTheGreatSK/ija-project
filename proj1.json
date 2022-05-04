@@ -1,7 +1,8 @@
 {
   "ProjectName" : "proj1",
-  "ClassDiagram": {
-    "cls1": {
+  "ClassDiagram": [
+    {
+      "Name": "cls1",
       "X": 50.00,
       "Y": 50.00,
       "Operation": {
@@ -29,7 +30,8 @@
         }
       ]
     },
-    "cls2": {
+    {
+      "Name": "cls2",
       "X": 100.00,
       "Y": 100.00,
       "Operation": null,
@@ -54,5 +56,65 @@
         }
       ]
     }
-  }
+  ],
+  "SequenceDiagram": [
+    {
+      "Name": "Seq1",
+      "Participants": [
+        {
+          "Name": "Orchestra",
+          "Time": [
+            {
+              "Index": 1,
+              "Start": 0,
+              "End": 20
+            }
+          ]
+        },
+        {
+          "Name": "Storage",
+          "Time": [
+            {
+              "Index": 1,
+              "Start": 5,
+              "End": 13
+            }
+          ]
+        },
+        {
+          "Name": "Publisher",
+          "Time": [
+            {
+              "Index": 1,
+              "Start": 1,
+              "End": 10
+            }
+          ]
+        }
+      ],
+      "Operations": [
+        {
+          "Index": 1,
+          "Source": "Storage",
+          "Destination": "Publisher",
+          "Type": "SMS",
+          "Message": "Just a message."
+        },
+        {
+          "Index": 2,
+          "Source": "Publisher",
+          "Destination": "Storage",
+          "Type": "RM",
+          "Message": "Response."
+        },
+        {
+          "Index": 3,
+          "Source": "Storage",
+          "Destination": "Storage",
+          "Type": "AMS",
+          "Message": "Self."
+        }
+      ]
+    }
+  ]
 }
