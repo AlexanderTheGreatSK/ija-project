@@ -6,8 +6,6 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
 
 /**
  * FileHandler
@@ -15,7 +13,7 @@ import java.util.Map;
  * This controller is json handler from input file and json generator to output file.
  *
  * @author xokruc00
- * @version 1.0
+ * @version 2.0
  */
 public class FileHandler {
     private String file;
@@ -45,6 +43,11 @@ public class FileHandler {
         }
     }
 
+    /**
+     * Saves UMLProject to file
+     *
+     * @param umlProject
+     */
     public void save(UMLProject umlProject) {
         Gson gson = new Gson();
         String out;
@@ -64,6 +67,18 @@ public class FileHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void clear() {
+        String out = "";
+        FileWriter myWriter = null;
+        try {
+            myWriter = new FileWriter(this.file);
+            myWriter.write(out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

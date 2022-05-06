@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * @author xokruc00
  * @version 1.0
  */
-public class UMLAttributes {
+public class UMLAttribute {
     @Expose
     @SerializedName("Name")
     public String name;
@@ -19,12 +19,12 @@ public class UMLAttributes {
     @SerializedName("IsPublic")
     public boolean isPublic;
 
-    public UMLAttributes(String name, boolean isPublic) {
+    public UMLAttribute(String name, boolean isPublic) {
         this.name = name;
         this.isPublic = isPublic;
     }
 
-    public UMLAttributes(String name) {
+    public UMLAttribute(String name) {
         this.name = name;
         this.isPublic = true;
     }

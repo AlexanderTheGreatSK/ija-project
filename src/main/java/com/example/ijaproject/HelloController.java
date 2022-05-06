@@ -40,6 +40,7 @@ public class HelloController {
     public double orgSceneX;
     public double orgSceneY;
 
+    public AppController appController;
     FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
 
     @FXML

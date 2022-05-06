@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * UMLProject
@@ -47,18 +48,46 @@ public class UMLProject {
         if(classes.isEmpty()) {
             classes.add(newClass);
         } else {
-            for(int i = 0; i < classes.size(); i++) {
-                if(newClass.getName() == classes.get(i).getName()) {
-                    throw new Exception();
+            if(this.classExists(newClass.name)) {
+                throw new Exception();
+            } else {
+                this.classes.add(newClass);
+            }
+        }
+    }
+
+    public boolean classExists(String name) {
+        if(this.getClass(name) == null) {
+            return false;
+        }
+        return true;
+    }
+
+
+    public UMLClass getClass(String name) {
+        if(this.classes.isEmpty()) {
+            return null;
+        } else {
+            for(int i = 0; i < this.classes.size(); i++) {
+                if(Objects.equals(name, this.classes.get(i).name)) {
+                    return this.classes.get(i);
                 }
             }
-            this.classes.add(newClass);
+            return null;
+        }
+    }
+
+    public void addMethod(String targetName, UMLAttribute method) throws Exception {
+        try {
+            this.getClass(targetName).addMethod(method);
+        } catch (Exception e) {
+            throw new Exception();
         }
     }
 
     public void debugPrint() {
-        List<UMLAttributes> attributes;
-        List<UMLAttributes> methods;
+        List<UMLAttribute> attributes;
+        List<UMLAttribute> methods;
         Map<String, Double> pos;
         UMLOperation operation;
 
@@ -77,7 +106,6 @@ public class UMLProject {
             }
             attributes = this.classes.get(i).getAttributes();
             methods = this.classes.get(i).getMethods();
-
             if(attributes != null) {
                 for(int j = 0; j < attributes.size(); j++) {
                     System.out.println(j + " Attribute name: " + attributes.get(j).getName() + " is public: " + attributes.get(j).getIsPublic());
@@ -85,7 +113,6 @@ public class UMLProject {
             } else {
                 System.out.println("Arguments null");
             }
-
             if(methods != null) {
                 for(int j = 0; j < methods.size(); j++) {
                     System.out.println(j + " Method name: " + methods.get(j).getName() + " is public: " + methods.get(j).getIsPublic());
@@ -93,8 +120,6 @@ public class UMLProject {
             } else {
                 System.out.println("Methods null");
             }
-
-
         }
         System.out.println("---------------------------------------------------------------");
     }
