@@ -40,8 +40,8 @@ public class Aggregation extends Line {
         start.setFill(inActive);
 
         end = new Circle(endX, endY, 5);
-        end.setStroke(inActive);
-        end.setFill(inActive);
+        end.setStroke(active);
+        end.setFill(active);
 
         group.getChildren().add(this);
         group.getChildren().add(start);

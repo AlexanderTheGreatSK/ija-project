@@ -1,65 +1,48 @@
 package com.example.ijaproject;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.Cursor;
 
-import java.io.IOException;
-
-public class Composition extends Line {
-
+public class Generalization extends Line {
     private Polygon start;
     private Circle end;
-    private Line left;
-    private Line right;
 
     private double sX;
     private double sY;
     private double eX;
     private double eY;
 
-    private Color active = Color.WHITE;
-    private Color inActive = Color.BLACK;
+    private Color active = Color.BLACK;
+    private Color inActive = Color.WHITE;
 
     /**
      * TBD, code from resize line
      *
      */
-    public Composition(double startX, double startY, double endX, double endY,  Group group) {
+    public Generalization(double startX, double startY, double endX, double endY,  Group group) {
         super(startX, startY, endX, endY);
         super.setStrokeWidth(2);
 
         start = new Polygon();
         start.getPoints().addAll(startX, startY,
-                startX + 15.0, startY + 10.0,
-                startX, startY + 20.0,
-                startX + 20.0 - 35.0, startY + 20.0 - 10.0);
+                startX, startY,
+                startX + 20.0, startY + 10.0,
+                startX + 10.0, startY + 20.0);
 
-        end = new Circle(endX, endY, 3);
-        end.setStroke(inActive);
-        end.setFill(inActive);
+        start.setStroke(active);
+        start.setFill(inActive);
 
-        left = new Line();
-        left.setStartX(endX);
-        left.setEndX(endX + 2);
-        left.setStartY(endX);
-        left.setEndX(endY + 2);
-        
-        right = new Line();
+        end = new Circle(endX, endY, 5);
+        end.setStroke(active);
+        end.setFill(active);
 
         group.getChildren().add(this);
         group.getChildren().add(start);
         group.getChildren().add(end);
-        group.getChildren().add(left);
-        group.getChildren().add(right);
-
 
         super.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
             start.setStroke(active);

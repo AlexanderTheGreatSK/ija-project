@@ -156,4 +156,8 @@ public class HelloController {
     public void composition(ActionEvent actionEvent) {
         Composition composition = new Composition(100,100,150,150, mainGroup);
     }
+
+    public void generalization(ActionEvent actionEvent) {
+        Generalization generalization = new Generalization(100,100,150,150, mainGroup);
+    }
 }
