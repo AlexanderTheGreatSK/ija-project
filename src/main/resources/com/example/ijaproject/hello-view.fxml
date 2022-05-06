@@ -13,8 +13,10 @@
         <Button fx:id="addLineButton" mnemonicParsing="false" onAction="#addLine" text="Add association" />
         <Button mnemonicParsing="false" onAction="#aggregation" text="Add aggregation" />
         <Button mnemonicParsing="false" onAction="#composition" text="Add composition" />
-        <Button mnemonicParsing="false" text="Add generalization" />
-      <Button mnemonicParsing="false" text="Open" onAction="#openFile" />
+
+        <Button mnemonicParsing="false" onAction="#generalization" text="Add generalization" />
+      <Button mnemonicParsing="false" text="Open" onAction="#openFile"/>
+
       <Button mnemonicParsing="false" text="Save" />
     </ToolBar>
 </AnchorPane>
