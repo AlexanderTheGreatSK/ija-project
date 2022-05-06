@@ -9,7 +9,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
 
-public class Aggregation extends Line {
+public class Composition extends Line {
 
     private Polygon start;
     private Circle end;
@@ -26,7 +26,7 @@ public class Aggregation extends Line {
      * TBD, code from resize line
      *
      */
-    public Aggregation(double startX, double startY, double endX, double endY,  Group group) {
+    public Composition(double startX, double startY, double endX, double endY,  Group group) {
         super(startX, startY, endX, endY);
         super.setStrokeWidth(2);
 
@@ -37,7 +37,7 @@ public class Aggregation extends Line {
                 startX + 20.0 - 35.0, startY + 20.0 - 10.0);
 
         start.setStroke(active);
-        start.setFill(inActive);
+        start.setFill(active);
 
         end = new Circle(endX, endY, 5);
         end.setStroke(inActive);
@@ -70,8 +70,8 @@ public class Aggregation extends Line {
 
         start.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
             start.setStroke(active);
-            start.setFill(inActive);
-            end.setStroke(inActive);
+            start.setFill(active);
+            end.setStroke(active);
             end.setFill(inActive);
         });
 
@@ -84,7 +84,7 @@ public class Aggregation extends Line {
 
         end.addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
             start.setStroke(active);
-            start.setFill(inActive);
+            start.setFill(active);
             end.setStroke(inActive);
             end.setFill(inActive);
         });
