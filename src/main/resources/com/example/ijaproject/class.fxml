@@ -13,9 +13,9 @@
         <Button fx:id="buttonAddAttribute" defaultButton="true" layoutX="176.0" layoutY="147.0" mnemonicParsing="false" onAction="#addAttribute" prefHeight="24.0" prefWidth="101.0" text="+ Atribute" underline="true" />
       <ListView fx:id="listViewAddMethod" layoutX="19.0" layoutY="54.0" prefHeight="42.0" prefWidth="258.0" />
       <ListView fx:id="listViewAddAttribute" layoutX="19.0" layoutY="96.0" prefHeight="42.0" prefWidth="258.0" />
-      <Circle fill="WHITE" layoutX="9.0" layoutY="75.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="WHITE" layoutX="285.0" layoutY="75.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="circle" fill="WHITE" layoutX="148.0" layoutY="170.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="WHITE" layoutX="148.0" layoutY="13.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circleLEFT" fill="WHITE" layoutX="9.0" layoutY="75.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circleRIGHT" fill="WHITE" layoutX="285.0" layoutY="75.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circleBOT" fill="WHITE" layoutX="148.0" layoutY="170.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circleTOP" fill="WHITE" layoutX="148.0" layoutY="13.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
     </children>
 </Pane>

@@ -34,7 +34,16 @@ public class ClassController {
     public ListView listViewAddAttribute;
 
     @FXML
-    public Circle circle;
+    public Circle circleTOP;
+
+    @FXML
+    public Circle circleBOT;
+
+    @FXML
+    public Circle circleRIGHT;
+
+    @FXML
+    public Circle circleLEFT;
 
     @FXML
     private Pane paneMove;
@@ -52,7 +61,7 @@ public class ClassController {
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
         listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() + 24);
-        circle.setLayoutY(circle.getLayoutY() + 24);
+        circleBOT.setLayoutY(circleBOT.getLayoutY() + 24);
         listViewAddAttribute.setLayoutY(listViewAddAttribute.getLayoutY() + 24);
         ObservableList observableList = listViewAddMethod.getItems();
 
@@ -78,7 +87,7 @@ public class ClassController {
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
         listViewAddAttribute.setMinHeight(listViewAddAttribute.getHeight() + 24);
-        circle.setLayoutY(circle.getLayoutY() + 24);
+        circleBOT.setLayoutY(circleBOT.getLayoutY() + 24);
         ObservableList observableList = listViewAddAttribute.getItems();
 
         TextField text = new TextField();
