@@ -1,20 +1,12 @@
 package com.example.ijaproject;
 
-import com.fxgraph.cells.AbstractCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import com.fxgraph.cells.*;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.StrokeType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,18 +32,6 @@ public class ClassController extends Pane {
 
     public ListView listViewAddAttribute;
 
-    public Circle circleTOP;
-
-    public Circle circleBOT;
-
-    public Circle circleRIGHT;
-
-    public Circle circleLEFT;
-
-
-    /*public double posX;
-    public double posY;*/
-
     /**
      * Method which handles pressing button "+ Method" (onAction="#addMethod").
      * After pressing button "+ Method" Pane and ListView listViewAddMethod will resize,
@@ -59,13 +39,11 @@ public class ClassController extends Pane {
      * and Button buttonAddMethod, Button buttonAddAttribute, ListView listViewAddMethod,
      * and ListView listViewAddAttribute will change their y-coordinates.
      */
-    @FXML
     protected void addAttribute() {
         super.setMinHeight(super.getHeight() + 24);
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
         listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() + 24);
-        circleBOT.setLayoutY(circleBOT.getLayoutY() + 24);
         listViewAddAttribute.setLayoutY(listViewAddAttribute.getLayoutY() + 24);
         ObservableList observableList = listViewAddMethod.getItems();
 
@@ -106,13 +84,11 @@ public class ClassController extends Pane {
      * and Button buttonAddMethod, Button buttonAddAttribute, ListView listViewAddMethod,
      * and ListView listViewAddAttribute will change their y-coordinates.
      */
-    @FXML
     protected void addMethod() {
         super.setMinHeight(super.getHeight() + 24);
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
         listViewAddAttribute.setMinHeight(listViewAddAttribute.getHeight() + 24);
-        circleBOT.setLayoutY(circleBOT.getLayoutY() + 24);
         ObservableList observableList = listViewAddAttribute.getItems();
 
         TextField text = new TextField();
@@ -124,10 +100,9 @@ public class ClassController extends Pane {
 
     }
 
-    public ClassController() {
+    public ClassController(String name) {
         uiBuild();
-        /*this.posX = X;
-        this.posY = Y;*/
+        this.updateName(name);
     }
 
     private void uiBuild() {
@@ -186,73 +161,15 @@ public class ClassController extends Pane {
         listViewAddAttribute.setMaxHeight(42);
         listViewAddAttribute.setMaxWidth(258);
 
-        circleLEFT = new Circle();
-        circleLEFT.setLayoutX(9.0);
-        circleLEFT.setLayoutY(75.0);
-        circleLEFT.setFill(Color.WHITE);
-        circleLEFT.setRadius(6.0);
-        circleLEFT.setStroke(Color.BLACK);
-        circleLEFT.setStrokeType(StrokeType.INSIDE);
-        circleLEFT.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
-            System.out.println("POINT X:" + circleLEFT.getScene().getX() + " Y:" + circleLEFT.getScene().getY());
-        });
-
-        circleRIGHT = new Circle();
-        circleRIGHT.setLayoutX(285);
-        circleRIGHT.setLayoutY(75.0);
-        circleRIGHT.setFill(Color.WHITE);
-        circleRIGHT.setRadius(6.0);
-        circleRIGHT.setStroke(Color.BLACK);
-        circleRIGHT.setStrokeType(StrokeType.INSIDE);
-
-        circleBOT = new Circle();
-        circleBOT.setLayoutX(148);
-        circleBOT.setLayoutY(170);
-        circleBOT.setFill(Color.WHITE);
-        circleBOT.setRadius(6.0);
-        circleBOT.setStroke(Color.BLACK);
-        circleBOT.setStrokeType(StrokeType.INSIDE);
-
-        circleTOP = new Circle();
-        circleTOP.setLayoutX(148);
-        circleTOP.setLayoutY(13);
-        circleTOP.setFill(Color.WHITE);
-        circleTOP.setRadius(6.0);
-        circleTOP.setStroke(Color.BLACK);
-        circleTOP.setStrokeType(StrokeType.INSIDE);
-
         super.getChildren().add(textField);
         super.getChildren().add(buttonAddMethod);
         super.getChildren().add(buttonAddAttribute);
         super.getChildren().add(listViewAddMethod);
         super.getChildren().add(listViewAddAttribute);
-        super.getChildren().add(circleLEFT);
-        super.getChildren().add(circleRIGHT);
-        super.getChildren().add(circleBOT);
-        super.getChildren().add(circleTOP);
-    }
-
-    public void updatePos(double newX, double newY) {
-        /*this.posX = newX;
-        this.posY = newY;*/
-        //System.out.println("Given X:" + posX + " Y:" + newY);
     }
 
     public String getName() {
         return textField.getText();
-    }
-
-    public List<Position> getPos() {
-        List<Position> pos = new ArrayList<>();
-        Position top = new Position(circleTOP.getBoundsInParent().getCenterX(), circleTOP.getBoundsInParent().getCenterY());
-        Position bot = new Position(circleBOT.getBoundsInParent().getCenterX(), circleBOT.getBoundsInParent().getCenterY());
-        Position left = new Position(circleLEFT.getBoundsInParent().getCenterX(), circleLEFT.getBoundsInParent().getCenterY());
-        Position right = new Position(circleRIGHT.getBoundsInParent().getCenterX(), circleRIGHT.getBoundsInParent().getCenterY());
-        pos.add(top);
-        pos.add(bot);
-        pos.add(left);
-        pos.add(right);
-        return pos;
     }
 
     public void updateName(String newName) {

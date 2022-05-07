@@ -1,19 +1,15 @@
 package com.example.ijaproject;
 
-import com.fxgraph.cells.RectangleCell;
-import com.fxgraph.cells.TriangleCell;
-import com.fxgraph.edges.CorneredEdge;
-import com.fxgraph.edges.DoubleCorneredEdge;
 import com.fxgraph.edges.Edge;
 import com.fxgraph.graph.Graph;
 import com.fxgraph.graph.ICell;
 import com.fxgraph.graph.Model;
 import com.fxgraph.layout.RandomLayout;
 import javafx.application.Application;
-import javafx.geometry.Orientation;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -29,90 +25,99 @@ import java.util.List;
  * @version 1.0
  */
 public class HelloApplication extends Application {
+    public BorderPane borderPane;
+    public ToolBar toolbar;
+    public Model model;
+    public Graph graph;
+    int index = 0;
+
+
+    public ICell source;
+    public ICell destination;
+
     @Override
     public void start(Stage primaryStage) {
-        /*FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load(), Screen.getPrimary().getBounds().getWidth(), Screen.getPrimary().getBounds().getHeight());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        primaryStage.setTitle("UML");
-        primaryStage.setScene(scene);
-        primaryStage.show();*/
+        graph = new Graph();
 
-        /*FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
-        UMLProject umlProject = fileHandler.read();
-
-        List<UMLClass> lc = umlProject.classes;*/
-        Toolbar toolbar = new Toolbar();
-
-        Graph graph = new Graph();
-        final Model model = graph.getModel();
-
+        model = graph.getModel();
         graph.beginUpdate();
+        toolbar = new ToolBar();
+        Button addClass = new Button("Add Class");
+        addClass.setOnAction(this::addClassHandler);
+        Button addText = new Button("Add Text");
+        addText.setOnAction(this::addTextHandler);
+        Button addAssociation = new Button("Add Association");
+        addAssociation.setOnAction(this::addAssociationHandler);
+        Button addAggregation = new Button("Add Aggregation");
+        addAggregation.setOnAction(this::addAggregationHandler);
+        Button addComposition = new Button("Add Composition");
+        addComposition.setOnAction(this::addCompositionHandler);
+        Button addGeneralization = new Button("Add Generalization");
+        addGeneralization.setOnAction(this::addGeneralizationHandler);
+        Button importClassDiagram = new Button("Import Class Diagram");
+        importClassDiagram.setOnAction(this::importHandler);
+        Button saveClassDiagram = new Button("Save");
+        saveClassDiagram.setOnAction(this::saveHandler);
+        toolbar.getItems().addAll(addClass, addText, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram);
 
-        /*List<ICell> cells = new ArrayList<>();
-        List<Edge> edges = new ArrayList<>();
-
-        for(int i=0; i<lc.size(); i++) {
-            ClassController classController = new ClassController();
-            classController.updateName(lc.get(i).name);
-            classController.addAttributeBC(lc.get(i).attributes);
-            ICell cell = new ClassCell(classController);
-            model.addCell(cell);
-        }*/
-
-        final ICell cellA = new RectangleCell();
-        final ICell cellB = new RectangleCell();
-        final ICell cellC = new RectangleCell();
-        final ICell cellD = new TriangleCell();
-        final ICell cellE = new TriangleCell();
-        final ICell cellF = new RectangleCell();
-        final ICell cellG = new RectangleCell();
-        //final ICell cell = new ClassCell();
-
-        model.addCell(cellA);
-        model.addCell(cellB);
-        model.addCell(cellC);
-        model.addCell(cellD);
-        model.addCell(cellE);
-        model.addCell(cellF);
-        model.addCell(cellG);
-        //model.addCell(cell);
-
-        /*final Edge edgeAB = new Edge(cellA, cellB);
-        edgeAB.textProperty().set("Edges can have text too!");
-        model.addEdge(edgeAB);
-        final CorneredEdge edgeAC = new CorneredEdge(cellA, cellC, Orientation.HORIZONTAL);
-        edgeAC.textProperty().set("Edges can have corners too!");
-        model.addEdge(edgeAC);
-        model.addEdge(cellB, cellD);
-        final DoubleCorneredEdge edgeBE = new DoubleCorneredEdge(cellB, cellE, Orientation.HORIZONTAL);
-        edgeBE.textProperty().set("You can implement custom edges and nodes too!");
-        model.addEdge(edgeBE);
-        model.addEdge(cellC, cellF);
-        model.addEdge(cellC, cellG);
-
-        final Edge edgeClass = new Edge(cellG, cell);
-        edgeClass.textProperty().set("HAHAHAHAA");
-        model.addEdge(edgeClass);*/
-
-        graph.endUpdate();
-
-        graph.layout(new RandomLayout());
-        primaryStage.setScene(new Scene(new BorderPane(graph.getCanvas())));
-
-        BorderPane borderPane = new BorderPane();
+        borderPane = new BorderPane();
         borderPane.setTop(toolbar);
         borderPane.setCenter(graph.getCanvas());
-
+        primaryStage.setMinHeight(1000);
+        primaryStage.setMaxHeight(1000);
+        primaryStage.setMinWidth(1500);
+        primaryStage.setMaxWidth(1500);
         primaryStage.setScene(new Scene(borderPane));
         primaryStage.show();
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+    private void saveHandler(ActionEvent event) {
+    }
+
+    private void importHandler(ActionEvent event) {
+        FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
+        UMLProject umlProject = fileHandler.read();
+        List<UMLClass> lc = umlProject.classes;
+
+        List<ICell> cells = new ArrayList<>();
+        List<Edge> edges = new ArrayList<>();
+
+        graph.beginUpdate();
+
+        for(int i=0; i<lc.size(); i++) {
+            ClassController classController = new ClassController(lc.get(i).name);
+            classController.addAttributeBC(lc.get(i).attributes);
+            ICell cell = new ClassCell(classController);
+            model.addCell(cell);
+        }
+        graph.endUpdate();
+        graph.layout(new RandomLayout());
+    }
+
+    private void addGeneralizationHandler(ActionEvent event) {
+    }
+
+    private void addCompositionHandler(ActionEvent event) {
+    }
+
+    private void addAggregationHandler(ActionEvent event) {
+    }
+
+    private void addAssociationHandler(ActionEvent event) {
+    }
+
+    private void addTextHandler(ActionEvent event) {
+    }
+
+    private void addClassHandler(ActionEvent event) {
+        ClassController classController = new ClassController("Class" + this.index);
+        this.index++;
+        ICell cell = new ClassCell(classController);
+        this.model.addCell(cell);
+        this.graph.endUpdate();
     }
 }
