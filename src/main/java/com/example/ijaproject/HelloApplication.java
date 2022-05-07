@@ -13,6 +13,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -40,6 +42,8 @@ public class HelloApplication extends Application {
         primaryStage.setTitle("UML");
         primaryStage.setScene(scene);
         primaryStage.show();*/
+
+        Toolbar toolbar = new Toolbar();
 
         Graph graph = new Graph();
         final Model model = graph.getModel();
@@ -85,6 +89,12 @@ public class HelloApplication extends Application {
 
         graph.layout(new RandomLayout());
         primaryStage.setScene(new Scene(new BorderPane(graph.getCanvas())));
+
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(toolbar);
+        borderPane.setCenter(graph.getCanvas());
+
+        primaryStage.setScene(new Scene(borderPane));
         primaryStage.show();
     }
 
