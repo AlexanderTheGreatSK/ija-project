@@ -89,12 +89,16 @@ public class HelloApplication extends Application {
         Tab addSequence = new Tab("+ Add Sequence Diagram");
 
         borderPaneClass = new BorderPane();
+        borderPaneClass.setMinWidth(1000);
+        borderPaneClass.setMinHeight(1000);
         borderPaneClass.setTop(toolbarClass);
         borderPaneClass.setCenter(graph.getCanvas());
         primaryStage.setScene(new Scene(borderPaneClass));
         primaryStage.show();
 
         borderPaneSequence = new BorderPane();
+        borderPaneSequence.setMinWidth(1000);
+        borderPaneSequence.setMinHeight(1000);
         borderPaneSequence.setTop(toolbarSequence);
         SequenceDiagram seqDiagram = new SequenceDiagram();
         borderPaneSequence.setCenter(seqDiagram.getCanvas());
