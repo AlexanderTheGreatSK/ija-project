@@ -1,22 +1,38 @@
 package com.example.ijaproject;
 
+import com.fxgraph.cells.RectangleCell;
+import com.fxgraph.cells.TriangleCell;
+import com.fxgraph.edges.CorneredEdge;
+import com.fxgraph.edges.DoubleCorneredEdge;
+import com.fxgraph.edges.Edge;
+import com.fxgraph.graph.ICell;
+import com.fxgraph.graph.Model;
+import com.fxgraph.layout.RandomLayout;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Light;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import com.fxgraph.graph.Graph;
+
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -43,6 +59,8 @@ public class HelloController {
     public AppController appController;
     FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
 
+    private List<ClassPoints> classPoints = new ArrayList<>();
+    private List<Position> points = new ArrayList<>();
     @FXML
     public Button addLineButton;
 
@@ -61,7 +79,7 @@ public class HelloController {
      */
     @FXML
     public void addLine() {
-        ResizeLine line = new ResizeLine(100,100,150,150, mainGroup);
+        ResizeLine line = new ResizeLine(100,100,150,150, mainGroup, points);
     }
 
     @FXML
@@ -76,13 +94,18 @@ public class HelloController {
     @FXML
     public void addClass() throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("class.fxml"));
-        Pane pane = loader.load();
+        //FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("class.fxml"));
+        //Pane pane = loader.load();
+        //ClassController pane = new ClassController();
 
-        pane.setLayoutX(150);
-        pane.setLayoutY(150);
 
-        pane.setCursor(Cursor.HAND);
+
+        /*pane.setLayoutX(150);
+        pane.setLayoutY(150);*/
+
+        //pane.set
+
+        /*pane.setCursor(Cursor.HAND);
 
         pane.setOnMousePressed((t) -> {
             orgSceneX = t.getSceneX();
@@ -90,6 +113,9 @@ public class HelloController {
 
             Pane r = (Pane) (t.getSource());
             r.toFront();
+            System.out.println("PANE X:" + pane.getBoundsInParent().getCenterX());
+            System.out.println("PANE Y:" + pane.getBoundsInParent().getCenterY());
+
         });
 
         pane.setOnMouseDragged((t) -> {
@@ -106,7 +132,58 @@ public class HelloController {
         });
 
         mainGroup.getChildren().add(pane);
+        List<Position> p = new ArrayList<>();
+        p = pane.getPos();
+        ClassPoints cp = new ClassPoints(pane.getName(), p);
+        classPoints.add(cp);
+        points.add(p.get(0));
+        points.add(p.get(1));
+        points.add(p.get(2));
+        points.add(p.get(3));*/
 
+        Graph graph = new Graph();
+        final Model model = graph.getModel();
+
+        graph.beginUpdate();
+
+        final ICell cellA = new RectangleCell();
+        final ICell cellB = new RectangleCell();
+        final ICell cellC = new RectangleCell();
+        final ICell cellD = new TriangleCell();
+        final ICell cellE = new TriangleCell();
+        final ICell cellF = new RectangleCell();
+        final ICell cellG = new RectangleCell();
+        final ICell cell = new ClassCell();
+
+        model.addCell(cellA);
+        model.addCell(cellB);
+        model.addCell(cellC);
+        model.addCell(cellD);
+        model.addCell(cellE);
+        model.addCell(cellF);
+        model.addCell(cellG);
+        model.addCell(cell);
+
+        final Edge edgeAB = new Edge(cellA, cellB);
+        edgeAB.textProperty().set("Edges can have text too!");
+        model.addEdge(edgeAB);
+        final CorneredEdge edgeAC = new CorneredEdge(cellA, cellC, Orientation.HORIZONTAL);
+        edgeAC.textProperty().set("Edges can have corners too!");
+        model.addEdge(edgeAC);
+        model.addEdge(cellB, cellD);
+        final DoubleCorneredEdge edgeBE = new DoubleCorneredEdge(cellB, cellE, Orientation.HORIZONTAL);
+        edgeBE.textProperty().set("You can implement custom edges and nodes too!");
+        model.addEdge(edgeBE);
+        model.addEdge(cellC, cellF);
+        model.addEdge(cellC, cellG);
+
+        final Edge edgeClass = new Edge(cellG, cell);
+        edgeAB.textProperty().set("HAHAHAHAA");
+        model.addEdge(edgeClass);
+
+        graph.endUpdate();
+
+        graph.layout(new RandomLayout());
     }
 
     @FXML

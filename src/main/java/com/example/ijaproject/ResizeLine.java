@@ -8,6 +8,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
 
+import java.util.List;
+
 /**
  * HelloController
  *
@@ -39,16 +41,20 @@ public class ResizeLine extends Line {
      * Method which handles creating resizable line. Line has circles at the ends which allows resizing and moving line.
      *
      */
-    public ResizeLine(double startX, double startY, double endX, double endY,  Group group) {
+    public ResizeLine(double startX, double startY, double endX, double endY,  Group group, List<Position> lp) {
         super(startX, startY, endX, endY);
         super.setStrokeWidth(2);
-
+        PointSearcher pointSearcher = new PointSearcher(lp);
         start = new Circle(startX, startY, 5);
         start.setStroke(inActive);
         start.setFill(inActive);
         end = new Circle(endX, endY, 5);
         end.setStroke(inActive);
         end.setFill(inActive);
+
+        for(int i=0; i<lp.size(); i++) {
+            System.out.println("Given X: " + lp.get(i).X + " Y:" + lp.get(i).Y);
+        }
 
         group.getChildren().add(this);
         group.getChildren().add(start);
@@ -99,6 +105,7 @@ public class ResizeLine extends Line {
         start.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             sX = event.getSceneX();
             sY = event.getSceneY();
+            System.out.println("START PRESSED X:" + sX + " Y:" + sY);
         });
 
         end.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
@@ -119,8 +126,19 @@ public class ResizeLine extends Line {
             c.setCenterX(c.getCenterX() + offsetSX);
             c.setCenterY(c.getCenterY() + offsetSY);
 
-            sX = event.getSceneX();
-            sY = event.getSceneY();
+            Position tmp = pointSearcher.search(event.getSceneX(),event.getSceneY());
+            if(tmp == null) {
+                sX = event.getSceneX();
+                sY = event.getSceneY();
+            } else {
+                System.out.println("YAAAY");
+                sX = tmp.X;
+                sY = tmp.Y;
+                System.out.println(sX + " sksks " + sY);
+            }
+
+            /*sX = event.getSceneX();
+            sY = event.getSceneY();*/
         });
 
         end.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->  {
@@ -151,7 +169,11 @@ public class ResizeLine extends Line {
         });
 
         start.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
+            System.out.println("START X:" + event.getSceneX() + " Y:" + event.getSceneY());
+        });
 
+        end.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
+            System.out.println("END X:" + end.getBoundsInParent().getCenterX() + " Y:" + end.getBoundsInParent().getCenterY());
         });
 
         /*super.addEventHandler(MouseEvent.MOUSE_DRAGGED, event ->  {
