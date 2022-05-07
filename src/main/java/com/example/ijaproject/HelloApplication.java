@@ -35,15 +35,15 @@ public class HelloApplication extends Application {
     public Model model;
     public Graph graph;
     int index = 0;
-
-
     public ICell source;
     public ClassController sourceCC;
     public ICell destination;
     public ClassController destinationCC;
+    FileHandler fileHandler;
 
     @Override
     public void start(Stage primaryStage) {
+        this.fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1SAVED.json");
         graph = new Graph();
         model = graph.getModel();
         graph.beginUpdate();
@@ -139,44 +139,100 @@ public class HelloApplication extends Application {
     }
 
     private void saveHandler(ActionEvent event) {
+
     }
 
     private void importHandler(ActionEvent event) {
-        FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
-        UMLProject umlProject = fileHandler.read();
+        UMLProject umlProject = this.fileHandler.read();
         List<UMLClass> lc = umlProject.classes;
 
-        List<ICell> cells = new ArrayList<>();
-        List<Edge> edges = new ArrayList<>();
-
+        List<ClassCell> cells = new ArrayList<>();
+        List<MyArrow> arrows = new ArrayList<>();
+        List<OperationHolder> operations = new ArrayList<>();
         graph.beginUpdate();
+        OperationHolder holder = null;
 
         for(int i=0; i<lc.size(); i++) {
             ClassController classController = new ClassController(lc.get(i).name);
             classController.addAttributeBC(lc.get(i).attributes);
-            ICell cell = new ClassCell(classController);
-            model.addCell(cell);
+            classController.addMethodsBC(lc.get(i).methods);
+            if(lc.get(i).operations != null) {
+                for(int j = 0; j < lc.get(i).operations.size(); j++)
+                 holder = new OperationHolder(lc.get(i).name, lc.get(i).operations.get(j).target, lc.get(i).operations.get(j).name);
+                operations.add(holder);
+            }
+            cells.add(new ClassCell(classController));
+            model.addCell(cells.get(i));
         }
+
+        int sIndex;
+        int tIndex;
+        for(int i=0; i < operations.size(); i++) {
+            sIndex = this.getIndex(cells, operations.get(i).sourceName);
+            tIndex = this.getIndex(cells, operations.get(i).targetName);
+
+            MyArrow arrow = new MyArrow(cells.get(sIndex), cells.get(tIndex));
+            arrow.textProperty().set(makeMessage(operations.get(i)));
+            this.model.addEdge(arrow);
+        }
+
         graph.endUpdate();
         graph.layout(new RandomLayout());
     }
 
+    private String makeMessage(OperationHolder operationHolder) {
+        String msg;
+        if(Objects.equals(operationHolder.operation, "association")) {
+            msg = operationHolder.sourceName + " and " + operationHolder.targetName + " classifiers are associated";
+        } else if(Objects.equals(operationHolder.operation, "generalization")) {
+            msg = operationHolder.sourceName + " is generalized by " + operationHolder.targetName;
+        } else {
+            msg = "";
+        }
+
+        return msg;
+    }
+
+    private int getIndex(List<ClassCell> cells, String name) {
+        for(int i=0; i < cells.size(); i++) {
+            if(Objects.equals(cells.get(i).getName(), name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     private void addGeneralizationHandler(ActionEvent event) {
-
-
+        if(this.source != null && this.destination != null) {
+            final MyArrow myArrow = new MyArrow(this.source, this.destination);
+            myArrow.textProperty().set(this.sourceCC.getName() + " is generalized by " + this.destinationCC.getName());
+            this.model.addEdge(myArrow);
+            this.graph.endUpdate();
+        }
     }
 
     private void addCompositionHandler(ActionEvent event) {
+        if(this.source != null && this.destination != null) {
+            final MyArrow myArrow = new MyArrow(this.source, this.destination);
+            myArrow.textProperty().set("<-             ->");
+            this.model.addEdge(myArrow);
+            this.graph.endUpdate();
+        }
     }
 
     private void addAggregationHandler(ActionEvent event) {
+        if(this.source != null && this.destination != null) {
+            final MyArrow myArrow = new MyArrow(this.source, this.destination);
+            myArrow.textProperty().set("<-             ->");
+            this.model.addEdge(myArrow);
+            this.graph.endUpdate();
+        }
     }
 
     private void addAssociationHandler(ActionEvent event) {
         if(this.source != null && this.destination != null) {
-            System.out.println("tru");
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
-            myArrow.textProperty().set("Edges can have text too!");
+            myArrow.textProperty().set(this.sourceCC.getName() + " and " + this.destinationCC.getName() + " classifiers are associated");
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }

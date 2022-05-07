@@ -98,12 +98,12 @@ public class UMLProject {
             System.out.println(i + " Class name: " + this.classes.get(i).getName());
             pos = this.classes.get(i).getPosition();
             System.out.println(i + " Class X: " + pos.get("X") + " Y: " + pos.get("Y"));
-            operation = this.classes.get(i).getOperation();
-            if(operation != null) {
+            //operation = this.classes.get(i).getOperation();
+            /*if(operation != null) {
                 System.out.println(i + " Class operation: " + operation.getName() + " target: " + operation.getTarget());
             } else {
                 System.out.println("Operation null");
-            }
+            }*/
             attributes = this.classes.get(i).getAttributes();
             methods = this.classes.get(i).getMethods();
             if(attributes != null) {

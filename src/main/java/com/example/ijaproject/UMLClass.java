@@ -19,7 +19,7 @@ public class UMLClass {
     public String name;
     @Expose
     @SerializedName("Operation")
-    public UMLOperation operation;
+    public List<UMLOperation> operations;
 
     @Expose
     @SerializedName("X")
@@ -68,20 +68,20 @@ public class UMLClass {
     }
 
     public void setOperation(UMLOperation operation) {
-        this.operation = operation;
+        this.operations.add(operation);
     }
 
-    public UMLOperation getOperation() {
-        if(this.operation == null) {
+    public List<UMLOperation> getOperation() {
+        if(this.operations == null) {
             return null;
         } else {
-            return this.operation;
+            return this.operations;
         }
 
     }
 
     public void removeOperation() {
-        this.operation = null;
+        //this.operation = null;
     }
 
     public void addAttribute(UMLAttribute attribute) throws Exception {

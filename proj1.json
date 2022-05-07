@@ -5,10 +5,10 @@
       "Name": "cls1",
       "X": 50.00,
       "Y": 50.00,
-      "Operation": {
-        "Name" : "asociatization",
+      "Operation": [{
+        "Name" : "association",
         "Target" : "cls2"
-      },
+      }],
       "Attributes": [
         {
           "Name": "attr1",

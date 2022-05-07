@@ -31,9 +31,16 @@ public class ClassCell extends AbstractCell {
     public void addAttribute(List<UMLAttribute> attributes) {
         this.classController.addAttributeBC(attributes);
     }
+    public void addMethods(List<UMLAttribute> methods) {
+        this.classController.addMethodsBC(methods);
+    }
 
     public void setName(String newName) {
         this.classController.updateName(newName);
+    }
+
+    public String getName() {
+        return this.classController.getName();
     }
 
 }

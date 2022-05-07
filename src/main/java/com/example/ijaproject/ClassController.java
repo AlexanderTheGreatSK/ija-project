@@ -7,6 +7,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.util.List;
 import java.util.Objects;
@@ -82,6 +83,26 @@ public class ClassController extends Pane {
         for(int i = 0; i < attributes.size(); i++) {
             TextField tf = new TextField();
             tf.setText(attributes.get(i).isPublic + " " + attributes.get(i).name);
+            offset += 24;
+            listView.add(tf);
+        }
+
+
+        super.setMinHeight(super.getHeight() + offset);
+        buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + offset);
+        buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + offset);
+        listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() + offset);
+        listViewAddMethod.setMaxHeight(listViewAddMethod.getHeight() + offset);
+        listViewAddMethod.setItems(listView);
+    }
+
+    public void addMethodsBC(List<UMLAttribute> methods) {
+        ObservableList<TextField> listView = FXCollections.observableArrayList();;
+        int offset = 0;
+
+        for(int i = 0; i < methods.size(); i++) {
+            TextField tf = new TextField();
+            tf.setText(methods.get(i).isPublic + " " + methods.get(i).name);
             offset += 24;
             listView.add(tf);
         }

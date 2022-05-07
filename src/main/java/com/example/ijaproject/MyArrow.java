@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
@@ -34,6 +35,9 @@ public class MyArrow extends AbstractEdge {
         private final Line line = new Line();
         private final Text text;
 
+        private final Circle circle = new Circle();
+        private  final Line pointLine = new Line();
+
         public ArrowGraphic(Graph graph, MyArrow myArrow, StringProperty textProperty) {
             DoubleBinding sourceX = myArrow.getSource().getXAnchor(graph, myArrow);
             DoubleBinding sourceY = myArrow.getSource().getYAnchor(graph, myArrow);
@@ -42,11 +46,19 @@ public class MyArrow extends AbstractEdge {
             System.out.println("Source X:" + sourceX.get() + " Y:" + sourceY.get());
             System.out.println("Target X:" + targetX.get() + " Y:" + targetY.get());
 
+            System.out.println("UPDATED: " + targetX.get());
+
             this.line.startXProperty().bind(sourceX);
             this.line.startYProperty().bind(sourceY);
             this.line.endXProperty().bind(targetX);
             this.line.endYProperty().bind(targetY);
+
+            this.circle.setRadius(8);
+            this.circle.centerXProperty().bind(this.line.startXProperty().add(this.line.endXProperty()).divide(2));
+            this.circle.centerYProperty().bind(this.line.startYProperty().add(this.line.endYProperty()).divide(2));
+
             this.group.getChildren().add(this.line);
+            //this.group.getChildren().add(this.circle);
             DoubleProperty textWidth = new SimpleDoubleProperty();
             DoubleProperty textHeight = new SimpleDoubleProperty();
             this.text = new Text();
