@@ -80,44 +80,6 @@ public class HelloApplication extends Application {
         seqDiagram.addMessage(actorB, actorA, "noNewEmails");
 
         seqDiagram.layout();
-        /*final ICell cellA = new RectangleCell();
-        final ICell cellB = new RectangleCell();
-        final ICell cellC = new RectangleCell();
-        final ICell cellD = new TriangleCell();
-        final ICell cellE = new TriangleCell();
-        final ICell cellF = new RectangleCell();
-        final ICell cellG = new RectangleCell();
-        final ICell cell = new ClassCell(new ClassController("YAY"));
-
-
-
-        final Edge edgeAB = new Edge(cellA, cellB);
-        edgeAB.textProperty().set("Edges can have text too!");
-        model.addEdge(edgeAB);
-        final CorneredEdge edgeAC = new CorneredEdge(cellA, cellC, Orientation.HORIZONTAL);
-        edgeAC.textProperty().set("Edges can have corners too!");
-        model.addEdge(edgeAC);
-        model.addEdge(cellB, cellD);
-        final DoubleCorneredEdge edgeBE = new DoubleCorneredEdge(cellB, cellE, Orientation.HORIZONTAL);
-        edgeBE.textProperty().set("You can implement custom edges and nodes too!");
-        model.addEdge(edgeBE);
-        model.addEdge(cellC, cellF);
-        model.addEdge(cellC, cellG);
-
-        final Edge edgeClass = new Edge(cellG, cell);
-        edgeAB.textProperty().set("HAHAHAHAA");
-        model.addEdge(edgeClass);
-        model.addCell(cellA);
-        model.addCell(cellB);
-        model.addCell(cellC);
-        model.addCell(cellD);
-        model.addCell(cellE);
-        model.addCell(cellF);
-        model.addCell(cellG);
-        model.addCell(cell);
-        graph.endUpdate();*/
-
-        //graph.layout(new RandomLayout());
 
 
         borderPane = new BorderPane();
