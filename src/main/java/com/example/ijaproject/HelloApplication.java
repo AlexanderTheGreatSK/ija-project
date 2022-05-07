@@ -10,11 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * HelloApplication
@@ -33,7 +36,9 @@ public class HelloApplication extends Application {
 
 
     public ICell source;
+    public ClassController sourceCC;
     public ICell destination;
+    public ClassController destinationCC;
 
     @Override
     public void start(Stage primaryStage) {
@@ -60,9 +65,64 @@ public class HelloApplication extends Application {
         saveClassDiagram.setOnAction(this::saveHandler);
         toolbar.getItems().addAll(addClass, addText, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram);
 
+        graph.beginUpdate();
+
+        SequenceDiagram seqDiagram = new SequenceDiagram();
+
+        SequenceDiagram.ActorCell actorA = new SequenceDiagram.ActorCell("Actor A", 400d);
+        SequenceDiagram.ActorCell actorB = new SequenceDiagram.ActorCell("Actor B", 400d);
+        SequenceDiagram.ActorCell actorC = new SequenceDiagram.ActorCell("Actor C", 400d);
+        Arrays.asList(actorA, actorB, actorC).forEach(actor -> seqDiagram.addActor(actor));
+
+        seqDiagram.addMessage(actorA, actorB, "checkEmail");
+        seqDiagram.addMessage(actorB, actorC, "readSavedUser");
+        seqDiagram.addMessage(actorC, actorB, "savedUser");
+        seqDiagram.addMessage(actorB, actorA, "noNewEmails");
+
+        seqDiagram.layout();
+        /*final ICell cellA = new RectangleCell();
+        final ICell cellB = new RectangleCell();
+        final ICell cellC = new RectangleCell();
+        final ICell cellD = new TriangleCell();
+        final ICell cellE = new TriangleCell();
+        final ICell cellF = new RectangleCell();
+        final ICell cellG = new RectangleCell();
+        final ICell cell = new ClassCell(new ClassController("YAY"));
+
+
+
+        final Edge edgeAB = new Edge(cellA, cellB);
+        edgeAB.textProperty().set("Edges can have text too!");
+        model.addEdge(edgeAB);
+        final CorneredEdge edgeAC = new CorneredEdge(cellA, cellC, Orientation.HORIZONTAL);
+        edgeAC.textProperty().set("Edges can have corners too!");
+        model.addEdge(edgeAC);
+        model.addEdge(cellB, cellD);
+        final DoubleCorneredEdge edgeBE = new DoubleCorneredEdge(cellB, cellE, Orientation.HORIZONTAL);
+        edgeBE.textProperty().set("You can implement custom edges and nodes too!");
+        model.addEdge(edgeBE);
+        model.addEdge(cellC, cellF);
+        model.addEdge(cellC, cellG);
+
+        final Edge edgeClass = new Edge(cellG, cell);
+        edgeAB.textProperty().set("HAHAHAHAA");
+        model.addEdge(edgeClass);
+        model.addCell(cellA);
+        model.addCell(cellB);
+        model.addCell(cellC);
+        model.addCell(cellD);
+        model.addCell(cellE);
+        model.addCell(cellF);
+        model.addCell(cellG);
+        model.addCell(cell);
+        graph.endUpdate();*/
+
+        //graph.layout(new RandomLayout());
+
+
         borderPane = new BorderPane();
         borderPane.setTop(toolbar);
-        borderPane.setCenter(graph.getCanvas());
+        borderPane.setCenter(seqDiagram.getCanvas());
         primaryStage.setMinHeight(1000);
         primaryStage.setMaxHeight(1000);
         primaryStage.setMinWidth(1500);
@@ -99,6 +159,8 @@ public class HelloApplication extends Application {
     }
 
     private void addGeneralizationHandler(ActionEvent event) {
+
+
     }
 
     private void addCompositionHandler(ActionEvent event) {
@@ -108,6 +170,13 @@ public class HelloApplication extends Application {
     }
 
     private void addAssociationHandler(ActionEvent event) {
+        if(this.source != null && this.destination != null) {
+            System.out.println("tru");
+            final MyArrow myArrow = new MyArrow(this.source, this.destination);
+            myArrow.textProperty().set("Edges can have text too!");
+            this.model.addEdge(myArrow);
+            this.graph.endUpdate();
+        }
     }
 
     private void addTextHandler(ActionEvent event) {
@@ -115,9 +184,38 @@ public class HelloApplication extends Application {
 
     private void addClassHandler(ActionEvent event) {
         ClassController classController = new ClassController("Class" + this.index);
-        this.index++;
         ICell cell = new ClassCell(classController);
+
+        classController.addEventHandler(MouseEvent.MOUSE_CLICKED, event1 -> {
+            classController.toFront();
+            this.select(cell, classController);
+        });
+
+        this.index++;
+
         this.model.addCell(cell);
         this.graph.endUpdate();
+    }
+
+    private void select(ICell cell, ClassController classController) {
+        System.out.println("HAHAHA");
+
+        if(this.source == null && this.sourceCC == null) {
+            this.source = cell;
+            this.sourceCC = classController;
+            return;
+        } else if(this.destination == null) {
+            if(!Objects.equals(sourceCC.getName(), classController.getName())) {
+                this.destination = cell;
+                this.destinationCC = classController;
+                return;
+            }
+        }
+        if(!Objects.equals(destinationCC.getName(), classController.getName())) {
+            this.source = this.destination;
+            this.sourceCC = this.destinationCC;
+            this.destination = cell;
+            this.destinationCC = classController;
+        }
     }
 }

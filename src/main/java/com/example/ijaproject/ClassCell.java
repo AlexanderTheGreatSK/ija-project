@@ -3,6 +3,7 @@ package com.example.ijaproject;
 import com.fxgraph.cells.AbstractCell;
 import com.fxgraph.cells.CellGestures;
 import com.fxgraph.graph.Graph;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -23,6 +24,7 @@ public class ClassCell extends AbstractCell {
         view.widthProperty().bind(pane.prefWidthProperty());
         view.heightProperty().bind(pane.prefHeightProperty());
         CellGestures.makeResizable(pane);
+
         return pane;
     }
 
