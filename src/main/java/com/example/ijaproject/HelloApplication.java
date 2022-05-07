@@ -8,8 +8,7 @@ import com.fxgraph.layout.RandomLayout;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -28,8 +27,11 @@ import java.util.Objects;
  * @version 1.0
  */
 public class HelloApplication extends Application {
-    public BorderPane borderPane;
-    public ToolBar toolbar;
+    public BorderPane borderPaneClass;
+    public BorderPane borderPaneSequence;
+    public ToolBar toolbarClass;
+    public ToolBar toolbarSequence;
+    public TabPane tabPane;
     public Model model;
     public Graph graph;
     int index = 0;
@@ -43,10 +45,10 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         graph = new Graph();
-
         model = graph.getModel();
         graph.beginUpdate();
-        toolbar = new ToolBar();
+
+        toolbarClass = new ToolBar();
         Button addClass = new Button("Add Class");
         addClass.setOnAction(this::addClassHandler);
         Button addText = new Button("Add Text");
@@ -63,11 +65,44 @@ public class HelloApplication extends Application {
         importClassDiagram.setOnAction(this::importHandler);
         Button saveClassDiagram = new Button("Save");
         saveClassDiagram.setOnAction(this::saveHandler);
-        toolbar.getItems().addAll(addClass, addText, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram);
+        toolbarClass.getItems().addAll(addClass, addText, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram);
 
         graph.beginUpdate();
 
+        toolbarSequence = new ToolBar();
+        Button addParticipant = new Button("Add Participant");
+        addParticipant.setOnAction(this::addClassHandler);
+        Button addAsMessage = new Button("Add Asynchronous Message");
+        addAsMessage.setOnAction(this::addTextHandler);
+        Button addSyMessage = new Button("Add Synchronous Message");
+        addSyMessage.setOnAction(this::addAssociationHandler);
+        Button addResponse = new Button("Add Response");
+        addResponse.setOnAction(this::addAggregationHandler);
+        Button addTime = new Button("Add Time");
+        addTime.setOnAction(this::addCompositionHandler);
+        toolbarSequence.getItems().addAll(addParticipant, addAsMessage, addSyMessage, addResponse, addTime);
+
+        graph.beginUpdate();
+
+        tabPane = new TabPane();
+        Tab classDiagram = new Tab("Class Diagram");
+        Tab addSequence = new Tab("+ Add Sequence Diagram");
+
+        borderPaneClass = new BorderPane();
+        borderPaneClass.setTop(toolbarClass);
+        borderPaneClass.setCenter(graph.getCanvas());
+        primaryStage.setScene(new Scene(borderPaneClass));
+        primaryStage.show();
+
+        borderPaneSequence = new BorderPane();
+        borderPaneSequence.setTop(toolbarSequence);
         SequenceDiagram seqDiagram = new SequenceDiagram();
+        borderPaneSequence.setCenter(seqDiagram.getCanvas());
+        primaryStage.setScene(new Scene(borderPaneSequence));
+        primaryStage.show();
+
+        tabPane.getTabs().add(classDiagram);
+        tabPane.getTabs().add(addSequence);
 
         SequenceDiagram.ActorCell actorA = new SequenceDiagram.ActorCell("Actor A", 400d);
         SequenceDiagram.ActorCell actorB = new SequenceDiagram.ActorCell("Actor B", 400d);
@@ -80,16 +115,18 @@ public class HelloApplication extends Application {
         seqDiagram.addMessage(actorB, actorA, "noNewEmails");
 
         seqDiagram.layout();
+        addSequence.setContent(borderPaneSequence);
+        classDiagram.setContent(borderPaneClass);
 
+        graph.beginUpdate();
 
-        borderPane = new BorderPane();
-        borderPane.setTop(toolbar);
-        borderPane.setCenter(seqDiagram.getCanvas());
+        borderPaneClass = new BorderPane();
+        borderPaneClass.setTop(tabPane);
         primaryStage.setMinHeight(1000);
         primaryStage.setMaxHeight(1000);
         primaryStage.setMinWidth(1500);
         primaryStage.setMaxWidth(1500);
-        primaryStage.setScene(new Scene(borderPane));
+        primaryStage.setScene(new Scene(borderPaneClass));
         primaryStage.show();
     }
 
