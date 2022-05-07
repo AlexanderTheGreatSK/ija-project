@@ -1,6 +1,7 @@
 package com.example.ijaproject;
 
 import com.fxgraph.cells.AbstractCell;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -76,6 +77,26 @@ public class ClassController extends Pane {
         listViewAddMethod.setItems(observableList);
         System.out.println("X:" + super.parentProperty() + " Y:" + super.getLayoutY());
 
+    }
+
+    public void addAttributeBC(List<UMLAttribute> attributes) {
+        ObservableList<TextField> listView = FXCollections.observableArrayList();;
+        int offset = 0;
+
+        for(int i = 0; i < attributes.size(); i++) {
+            TextField tf = new TextField();
+            tf.setText(attributes.get(i).isPublic + " " + attributes.get(i).name);
+            offset += 24;
+            listView.add(tf);
+        }
+
+
+        super.setMinHeight(super.getHeight() + offset);
+        buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + offset);
+        buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + offset);
+        listViewAddAttribute.setMinHeight(listViewAddAttribute.getHeight() + offset);
+        listViewAddAttribute.setMaxHeight(listViewAddAttribute.getHeight() + offset);
+        listViewAddAttribute.setItems(listView);
     }
 
     /**
@@ -233,4 +254,10 @@ public class ClassController extends Pane {
         pos.add(right);
         return pos;
     }
+
+    public void updateName(String newName) {
+        this.textField.setText(newName);
+    }
+
+
 }

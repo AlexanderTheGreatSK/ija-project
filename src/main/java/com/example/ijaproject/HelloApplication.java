@@ -10,14 +10,13 @@ import com.fxgraph.graph.ICell;
 import com.fxgraph.graph.Model;
 import com.fxgraph.layout.RandomLayout;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * HelloApplication
@@ -41,12 +40,28 @@ public class HelloApplication extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();*/
 
+        FileHandler fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1.json");
+        UMLProject umlProject = fileHandler.read();
+
+        List<UMLClass> lc = umlProject.classes;
+
         Graph graph = new Graph();
         final Model model = graph.getModel();
 
         graph.beginUpdate();
 
-        final ICell cellA = new RectangleCell();
+        List<ICell> cells = new ArrayList<>();
+        List<Edge> edges = new ArrayList<>();
+
+        for(int i=0; i<lc.size(); i++) {
+            ClassController classController = new ClassController();
+            classController.updateName(lc.get(i).name);
+            classController.addAttributeBC(lc.get(i).attributes);
+            ICell cell = new ClassCell(classController);
+            model.addCell(cell);
+        }
+
+        /*final ICell cellA = new RectangleCell();
         final ICell cellB = new RectangleCell();
         final ICell cellC = new RectangleCell();
         final ICell cellD = new TriangleCell();
@@ -62,9 +77,9 @@ public class HelloApplication extends Application {
         model.addCell(cellE);
         model.addCell(cellF);
         model.addCell(cellG);
-        model.addCell(cell);
+        model.addCell(cell);*/
 
-        final Edge edgeAB = new Edge(cellA, cellB);
+        /*final Edge edgeAB = new Edge(cellA, cellB);
         edgeAB.textProperty().set("Edges can have text too!");
         model.addEdge(edgeAB);
         final CorneredEdge edgeAC = new CorneredEdge(cellA, cellC, Orientation.HORIZONTAL);
@@ -79,7 +94,7 @@ public class HelloApplication extends Application {
 
         final Edge edgeClass = new Edge(cellG, cell);
         edgeClass.textProperty().set("HAHAHAHAA");
-        model.addEdge(edgeClass);
+        model.addEdge(edgeClass);*/
 
         graph.endUpdate();
 

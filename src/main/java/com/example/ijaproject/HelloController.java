@@ -141,7 +141,7 @@ public class HelloController {
         points.add(p.get(2));
         points.add(p.get(3));*/
 
-        Graph graph = new Graph();
+        /*Graph graph = new Graph();
         final Model model = graph.getModel();
 
         graph.beginUpdate();
@@ -183,7 +183,7 @@ public class HelloController {
 
         graph.endUpdate();
 
-        graph.layout(new RandomLayout());
+        graph.layout(new RandomLayout());*/
     }
 
     @FXML
