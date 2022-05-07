@@ -6,8 +6,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ClassController
@@ -21,6 +23,7 @@ import java.util.List;
  * @version 1.0
  */
 public class ClassController extends Pane {
+    final int ROW_HEIGHT = 24;
 
     public Button buttonAddMethod;
 
@@ -28,31 +31,46 @@ public class ClassController extends Pane {
 
     public TextField textField;
 
-    public ListView listViewAddMethod;
-
     public ListView listViewAddAttribute;
+
+    public ListView listViewAddMethod;
 
     /**
      * Method which handles pressing button "+ Method" (onAction="#addMethod").
      * After pressing button "+ Method" Pane and ListView listViewAddMethod will resize,
      * TextField will be added to ListView listViewAddMethod
      * and Button buttonAddMethod, Button buttonAddAttribute, ListView listViewAddMethod,
-     * and ListView listViewAddAttribute will change their y-coordinates.
+     * and ListView listViewAddMethod will change their y-coordinates.
      */
     protected void addAttribute() {
         super.setMinHeight(super.getHeight() + 24);
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
-        listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() + 24);
-        listViewAddAttribute.setLayoutY(listViewAddAttribute.getLayoutY() + 24);
-        ObservableList observableList = listViewAddMethod.getItems();
+        listViewAddMethod.setLayoutY(listViewAddMethod.getLayoutY() + 24);
+        listViewAddAttribute.setMaxHeight(listViewAddAttribute.getHeight() + 24);
+        ObservableList observableList = listViewAddAttribute.getItems();
 
         TextField text = new TextField();
 
         observableList.add(text);
         text.setText("+");
 
-        listViewAddMethod.setItems(observableList);
+        listViewAddAttribute.setItems(observableList);
+
+        text.textProperty().addListener(e ->  {
+            System.out.println(text.getText());
+            if(text.getText().equals("")){
+                observableList.remove(text);
+                    super.setMinHeight(super.getHeight() - 24);
+                    listViewAddMethod.setLayoutY(listViewAddMethod.getLayoutY() - 24);
+                    listViewAddAttribute.setMaxHeight(listViewAddAttribute.getHeight() - 24);
+                    buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() - 24);
+                    buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() - 24);
+            }
+        });
+
+        listViewAddAttribute.setItems(observableList);
+
         System.out.println("X:" + super.parentProperty() + " Y:" + super.getLayoutY());
 
     }
@@ -72,31 +90,42 @@ public class ClassController extends Pane {
         super.setMinHeight(super.getHeight() + offset);
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + offset);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + offset);
-        listViewAddAttribute.setMinHeight(listViewAddAttribute.getHeight() + offset);
-        listViewAddAttribute.setMaxHeight(listViewAddAttribute.getHeight() + offset);
-        listViewAddAttribute.setItems(listView);
+        listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() + offset);
+        listViewAddMethod.setMaxHeight(listViewAddMethod.getHeight() + offset);
+        listViewAddMethod.setItems(listView);
     }
 
     /**
      * Method which handles pressing button "+ Attribute" (onAction="#addAttribute").
-     * After pressing button "+ Attribute" Pane and ListView listViewAddAttribute will resize,
-     * TextField will be added to ListView listViewAddAttribute
+     * After pressing button "+ Attribute" Pane and ListView listViewAddMethod will resize,
+     * TextField will be added to ListView listViewAddMethod
      * and Button buttonAddMethod, Button buttonAddAttribute, ListView listViewAddMethod,
-     * and ListView listViewAddAttribute will change their y-coordinates.
+     * and ListView listViewAddMethod will change their y-coordinates.
      */
     protected void addMethod() {
         super.setMinHeight(super.getHeight() + 24);
         buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() + 24);
         buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() + 24);
-        listViewAddAttribute.setMinHeight(listViewAddAttribute.getHeight() + 24);
-        ObservableList observableList = listViewAddAttribute.getItems();
+        listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() + 24);
+        ObservableList observableList = listViewAddMethod.getItems();
 
         TextField text = new TextField();
 
         observableList.add(text);
         text.setText("+");
 
-        listViewAddAttribute.setItems(observableList);
+        listViewAddMethod.setItems(observableList);
+
+        text.textProperty().addListener(e ->  {
+            System.out.println(text.getText());
+            if(text.getText().equals("")){
+                observableList.remove(text);
+                super.setMinHeight(super.getHeight() - 24);
+                listViewAddMethod.setMinHeight(listViewAddMethod.getHeight() - 24);
+                buttonAddMethod.setLayoutY(buttonAddMethod.getLayoutY() - 24);
+                buttonAddAttribute.setLayoutY(buttonAddAttribute.getLayoutY() - 24);
+            }
+        });
 
     }
 
@@ -145,21 +174,23 @@ public class ClassController extends Pane {
         buttonAddAttribute.setText("+ Method");
         buttonAddAttribute.underlineProperty();
 
+        listViewAddAttribute = new ListView();
+        listViewAddAttribute.setLayoutY(54.0);
+        listViewAddAttribute.setLayoutX(19.0);
+        listViewAddAttribute.prefHeight(42);
+        listViewAddAttribute.prefWidth(258);
+        listViewAddAttribute.setMaxHeight(42);
+        listViewAddAttribute.setMaxWidth(258);
+
         listViewAddMethod = new ListView();
-        listViewAddMethod.setLayoutY(54.0);
+        listViewAddMethod.setLayoutY(96.0);
         listViewAddMethod.setLayoutX(19.0);
         listViewAddMethod.prefHeight(42);
         listViewAddMethod.prefWidth(258);
         listViewAddMethod.setMaxHeight(42);
         listViewAddMethod.setMaxWidth(258);
 
-        listViewAddAttribute = new ListView();
-        listViewAddAttribute.setLayoutY(96.0);
-        listViewAddAttribute.setLayoutX(19.0);
-        listViewAddAttribute.prefHeight(42);
-        listViewAddAttribute.prefWidth(258);
-        listViewAddAttribute.setMaxHeight(42);
-        listViewAddAttribute.setMaxWidth(258);
+
 
         super.getChildren().add(textField);
         super.getChildren().add(buttonAddMethod);
