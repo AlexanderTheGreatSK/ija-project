@@ -133,8 +133,8 @@ public class SequenceDiagram extends Graph {
             dots.getStyleClass().add("life-line");
             lifeLine.startXProperty().bind(label.widthProperty().divide(2));
             dots.startXProperty().bind(label.widthProperty().divide(2));
-            lifeLine.setStartY(25);
-            dots.setStartY(10);
+            lifeLine.setStartY(35);
+            dots.setStartY(25);
             lifeLine.endXProperty().bind(label.widthProperty().divide(2));
             dots.endXProperty().bind(label.widthProperty().divide(2));
             lifeLine.endYProperty().bind(lifeLineLength);
@@ -143,7 +143,6 @@ public class SequenceDiagram extends Graph {
             lifeLine.setStrokeWidth(10);
             lifeLine.setStroke(Color.BLUE);
             lifeLine.setStrokeLineCap(StrokeLineCap.SQUARE);
-            //lifeLine.getStrokeDashArray().add(4d);
             Pane pane = new Pane(label, lifeLine, dots);
             pane.getStyleClass().add("actor-cell");
             return pane;
