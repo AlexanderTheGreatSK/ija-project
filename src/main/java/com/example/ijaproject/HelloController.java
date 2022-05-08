@@ -73,80 +73,6 @@ public class HelloController {
     @FXML
     private Group mainGroup;
 
-    /**
-     * Method which handles pressing button "Add association" (onAction="#addLine").
-     * After pressing button "Add association" line will occur.
-     */
-    @FXML
-    public void addLine() {
-        ResizeLine line = new ResizeLine(100,100,150,150, mainGroup, points);
-    }
-
-    @FXML
-    public void aggregation() {
-        Aggregation aggregation = new Aggregation(100,100,150,150, mainGroup);
-    }
-
-    /**
-     * Method which handles pressing button "Add class" (onAction="#addClass").
-     * After pressing button "Add class" class from class.fxml will occur.
-     */
-    @FXML
-    public void addClass() throws IOException {
-
-        //FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("class.fxml"));
-        //Pane pane = loader.load();
-        //ClassController pane = new ClassController();
-
-
-
-        /*pane.setLayoutX(150);
-        pane.setLayoutY(150);*/
-
-        //pane.set
-
-        /*pane.setCursor(Cursor.HAND);
-
-        pane.setOnMousePressed((t) -> {
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-
-            Pane r = (Pane) (t.getSource());
-            r.toFront();
-            System.out.println("PANE X:" + pane.getBoundsInParent().getCenterX());
-            System.out.println("PANE Y:" + pane.getBoundsInParent().getCenterY());
-
-        });
-
-        pane.setOnMouseDragged((t) -> {
-            double offsetX = t.getSceneX() - orgSceneX;
-            double offsetY = t.getSceneY() - orgSceneY;
-
-            Pane r = (Pane) (t.getSource());
-
-            r.setLayoutX(r.getLayoutX() + offsetX);
-            r.setLayoutY(r.getLayoutY() + offsetY);
-
-            orgSceneX = t.getSceneX();
-            orgSceneY = t.getSceneY();
-        });
-
-        mainGroup.getChildren().add(pane);
-        List<Position> p = new ArrayList<>();
-        p = pane.getPos();
-        ClassPoints cp = new ClassPoints(pane.getName(), p);
-        classPoints.add(cp);
-        points.add(p.get(0));
-        points.add(p.get(1));
-        points.add(p.get(2));
-        points.add(p.get(3));*/
-
-        /*Graph graph = new Graph();
-        final Model model = graph.getModel();
-
-        */
-    }
-
     @FXML
     private void openFile() {
         FileHandler fileHandler2 = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1SAVED.json");
@@ -191,28 +117,4 @@ public class HelloController {
         return text;
     }
 
-    /**
-     * Method which handles pressing button "Add text" (onAction="#addText").
-     * After pressing button "Add text" Text Field will occur.
-     *
-     * @param actionEvent
-     */
-    @FXML
-    public void addText(ActionEvent actionEvent) {
-
-        TextField t = createText();
-
-        mainGroup.getChildren().add(t);
-
-    }
-
-    @FXML
-    public void composition(ActionEvent actionEvent) {
-        Composition composition = new Composition(100,100,150,150, mainGroup);
-    }
-
-    public void generalization(ActionEvent actionEvent) {
-        Generalization generalization = new Generalization(100,100,150,150, mainGroup);
-    }
-    
 }
