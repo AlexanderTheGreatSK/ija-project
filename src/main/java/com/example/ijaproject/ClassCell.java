@@ -21,8 +21,8 @@ public class ClassCell extends AbstractCell {
     public Region getGraphic(Graph graph) {
         Rectangle view = new Rectangle(200, 200);
         Pane pane = classController;
-        view.widthProperty().bind(pane.prefWidthProperty());
-        view.heightProperty().bind(pane.prefHeightProperty());
+        view.widthProperty().bind(pane.minWidthProperty());
+        view.heightProperty().bind(pane.minHeightProperty());
         CellGestures.makeResizable(pane);
 
         return pane;
