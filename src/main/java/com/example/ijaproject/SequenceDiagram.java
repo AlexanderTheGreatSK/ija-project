@@ -19,6 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * SequenceDiagram
+ *
+ * Part of code for lib com.sirolf2009:fxgraph:0.0.3 (source: https://github.com/sirolf2009/fxgraph)
+ *
+ * @author  sirolf2009, xokruc00, xkovac59 (we changed part of library as we needed)
+ * @version 2.0
+ */
 public class SequenceDiagram extends Graph {
 
     private double verticalSpacing = 200;
