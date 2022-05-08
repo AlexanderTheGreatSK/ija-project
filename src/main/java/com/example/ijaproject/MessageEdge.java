@@ -8,6 +8,14 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
+/**
+ * MessageEdge
+ *
+ * Part of code for lib com.sirolf2009:fxgraph:0.0.3 (source: https://github.com/sirolf2009/fxgraph)
+ *
+ * @author  sirolf2009, xokruc00, xkovac59 (we edited parts from library as we needed)
+ * @version 2.0
+ */
 public class MessageEdge extends AbstractEdge implements SequenceDiagram.IMessageEdge {
 
     private final String name;
