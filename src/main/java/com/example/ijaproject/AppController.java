@@ -34,6 +34,10 @@ public class AppController {
         this.top++;
     }
 
+    public UMLProject read() {
+       return this.fileHandler.read();
+    }
+
     public UMLProject getTop() {
         Gson gson = new Gson();
         UMLProject umlProject = gson.fromJson(this.operationStack.get(this.top), UMLProject.class);

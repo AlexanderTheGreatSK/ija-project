@@ -90,8 +90,10 @@ public class HelloApplication extends Application {
         addSequenceDiagram.setOnAction(this::addClassDiagramHandler);
         Button undo = new Button("↶ Undo");
         undo.setOnAction(this::undoHandler);
+        Button random = new Button("Randomize");
+        random.setOnAction(this::randomHandler);
 
-        this.toolbarClass.getItems().addAll(addClass, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram, addSequenceDiagram, undo);
+        this.toolbarClass.getItems().addAll(addClass, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram, addSequenceDiagram, undo, random);
 
         this.graph.beginUpdate();
 
@@ -158,6 +160,10 @@ public class HelloApplication extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.setScene(new Scene(this.borderPaneClass));
         primaryStage.show();
+    }
+
+    private void randomHandler(ActionEvent actionEvent) {
+        this.graph.layout(new RandomLayout());
     }
 
     private void addTimeHandler(ActionEvent event) {
@@ -239,16 +245,16 @@ public class HelloApplication extends Application {
         } else if(classes.size() < this.historyCells.size()) {
             this.historyCells.remove(this.historyCells.size()-1);
             System.out.println("HERE");
-            model.clear();
-            graph.beginUpdate();
+            this.model.clear();
+            this.graph.beginUpdate();
             System.out.println("HERE");
             System.out.println("HERE");
-            for(int i=0; i < historyCells.size(); i++) {
+            for(int i=0; i < this.historyCells.size(); i++) {
                 System.out.println("HEREF");
-                model.addCell(historyCells.get(i));
+                this.model.addCell(this.historyCells.get(i));
             }
             System.out.println("HEREK");
-            graph.endUpdate();
+            this.graph.endUpdate();
             this.source = null;
             this.sourceCC = null;
             this.sourceAH = null;
@@ -286,16 +292,30 @@ public class HelloApplication extends Application {
 
     private void importHandler(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.showOpenDialog(primaryStage);
+        File file = fileChooser.showOpenDialog(primaryStage);
 
-        this.umlProject = this.fileHandler.read();
+        System.out.println(file);
+
+        this.appController.addPath(file.toString());
+
+        this.umlProject = this.appController.read();
+
+        this.source = null;
+        this.sourceCC = null;
+        this.sourceAH = null;
+        this.sourceSQ = null;
+        this.destination = null;
+        this.destinationCC = null;
+        this.destinationAH = null;
+        this.destinationSQ = null;
 
         List<UMLClass> lc = umlProject.classes;
 
         List<ClassCell> cells = new ArrayList<>();
         List<MyArrow> arrows = new ArrayList<>();
         List<OperationHolder> operations = new ArrayList<>();
-        graph.beginUpdate();
+        this.model.clear();
+        this.graph.beginUpdate();
         OperationHolder holder = null;
 
         for(int i=0; i<lc.size(); i++) {
@@ -308,7 +328,7 @@ public class HelloApplication extends Application {
                 operations.add(holder);
             }
             cells.add(new ClassCell(classController));
-            model.addCell(cells.get(i));
+            this.model.addCell(cells.get(i));
         }
 
         int sIndex;
@@ -322,8 +342,8 @@ public class HelloApplication extends Application {
             this.model.addEdge(arrow);
         }
 
-        graph.endUpdate();
-        graph.layout(new RandomLayout());
+        this.graph.endUpdate();
+        this.graph.layout(new RandomLayout());
     }
 
     private String makeMessage(OperationHolder operationHolder) {
@@ -351,7 +371,7 @@ public class HelloApplication extends Application {
     private void addGeneralizationHandler(ActionEvent event) {
         if(this.source != null && this.destination != null) {
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
-            myArrow.textProperty().set(this.sourceCC.getName() + " is generalized by " + this.destinationCC.getName());
+            myArrow.textProperty().set(this.sourceCC.getName() + " —▷ is generalized by " + this.destinationCC.getName());
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }
@@ -360,7 +380,7 @@ public class HelloApplication extends Application {
     private void addCompositionHandler(ActionEvent event) {
         if(this.source != null && this.destination != null) {
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
-            myArrow.textProperty().set("<-             ->");
+            myArrow.textProperty().set(this.destinationCC.getName() + " ◀▶— has " + this.sourceCC.getName());
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }
@@ -369,7 +389,7 @@ public class HelloApplication extends Application {
     private void addAggregationHandler(ActionEvent event) {
         if(this.source != null && this.destination != null) {
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
-            myArrow.textProperty().set("<-             ->");
+            myArrow.textProperty().set(this.destinationCC.getName() + " ◇— has collection of " + this.sourceCC.getName());
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }
@@ -378,7 +398,7 @@ public class HelloApplication extends Application {
     private void addAssociationHandler(ActionEvent event) {
         if(this.source != null && this.destination != null) {
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
-            myArrow.textProperty().set(this.sourceCC.getName() + " and " + this.destinationCC.getName() + " classifiers are associated");
+            myArrow.textProperty().set(this.sourceCC.getName() + " —> " + this.destinationCC.getName() + " classifiers are associated");
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }

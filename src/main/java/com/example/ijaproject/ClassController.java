@@ -30,8 +30,6 @@ public class ClassController extends Pane {
 
     public Button buttonAddAttribute;
 
-    public Button delete;
-
     public TextField textField;
 
     public ListView listViewAddAttribute;
@@ -160,8 +158,8 @@ public class ClassController extends Pane {
     private void uiBuild() {
         super.setPrefHeight(183);
         super.setMinHeight(183);
-        super.setPrefWidth(295);
-        super.setMinWidth(295);
+        super.setPrefWidth(280);
+        super.setMinWidth(280);
         super.styleProperty().set("-fx-background-color: #89CFF0;");
 
         textField = new TextField();
@@ -172,20 +170,6 @@ public class ClassController extends Pane {
         textField.setMinHeight(24);
         textField.setMinWidth(247);
         textField.setText("Name");
-
-        delete = new Button();
-        delete.defaultButtonProperty();
-        delete.setLayoutY(3.0);
-        delete.setLayoutX(263.0);
-
-        delete.setOnAction(e -> {
-            System.out.println("PRESSED");
-            //delete
-        });
-
-        delete.setText("❌");
-        delete.styleProperty().set("-fx-background-color: #89CFF0;");
-        delete.underlineProperty();
 
         buttonAddMethod = new Button();
         buttonAddMethod.defaultButtonProperty();
@@ -234,7 +218,6 @@ public class ClassController extends Pane {
         super.getChildren().add(buttonAddAttribute);
         super.getChildren().add(listViewAddMethod);
         super.getChildren().add(listViewAddAttribute);
-        super.getChildren().add(delete);
     }
 
     public String getName() {
