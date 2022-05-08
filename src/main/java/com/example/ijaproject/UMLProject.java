@@ -16,7 +16,7 @@ import java.util.Objects;
  * @author xokruc00
  * @version 1.0
  */
-public class UMLProject {
+public class UMLProject implements Cloneable {
     @Expose
     @SerializedName("ProjectName")
     public String projectName;
@@ -45,9 +45,10 @@ public class UMLProject {
     }
 
     public void addClass(UMLClass newClass) throws Exception {
-        if(classes.isEmpty()) {
-            classes.add(newClass);
+        if(this.classes.isEmpty()) {
+            this.classes.add(newClass);
         } else {
+            System.out.println(this.classExists(newClass.name));
             if(this.classExists(newClass.name)) {
                 throw new Exception();
             } else {
@@ -56,6 +57,15 @@ public class UMLProject {
         }
     }
 
+    public UMLProject clone() {
+        final UMLProject c;
+        try {
+            c = (UMLProject) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("superclass messed up", e);
+        }
+        return c;
+    }
     public boolean classExists(String name) {
         if(this.getClass(name) == null) {
             return false;

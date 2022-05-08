@@ -64,9 +64,22 @@ public class FileHandler {
             FileWriter myWriter = new FileWriter(this.file);
             myWriter.write(out);
             myWriter.close();
+            System.out.println(out);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void saveString(String text) {
+        FileWriter myWriter = null;
+        try {
+            myWriter = new FileWriter(this.file);
+            myWriter.write(text);
+            myWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void clear() {

@@ -5,6 +5,8 @@ import com.fxgraph.graph.ICell;
 import com.fxgraph.graph.Model;
 import com.fxgraph.layout.RandomLayout;
 import javafx.application.Application;
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -50,18 +52,26 @@ public class HelloApplication extends Application {
     private UMLProject umlProject;
     private SequenceDiagram seqDiagram;
     private int parIndex = 0;
+    private List<ICell> historyCells;
+
+    private AppController appController;
 
     private List<SequenceDiagram.ActorCell> actors;
 
     @Override
     public void start(Stage primaryStage) {
-        graph = new Graph();
-        model = graph.getModel();
-        graph.beginUpdate();
-        seqDiagram = new SequenceDiagram();
-        seqDiagram.beginUpdate();
+        this.historyCells = new ArrayList<>();
+        this.appController = new AppController();
+        this.umlProject = new UMLProject("tmp");
+        this.appController.addOperation(umlProject.clone());
 
-        toolbarClass = new ToolBar();
+        this.graph = new Graph();
+        this.model = graph.getModel();
+        this.graph.beginUpdate();
+        this.seqDiagram = new SequenceDiagram();
+        this.seqDiagram.beginUpdate();
+
+        this.toolbarClass = new ToolBar();
         Button addClass = new Button("Add Class");
         addClass.setOnAction(this::addClassHandler);
         Button addAssociation = new Button("Add Association");
@@ -81,11 +91,11 @@ public class HelloApplication extends Application {
         Button undo = new Button("↶ Undo");
         undo.setOnAction(this::undoHandler);
 
-        toolbarClass.getItems().addAll(addClass, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram, addSequenceDiagram, undo);
+        this.toolbarClass.getItems().addAll(addClass, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram, addSequenceDiagram, undo);
 
-        graph.beginUpdate();
+        this.graph.beginUpdate();
 
-        toolbarSequence = new ToolBar();
+        this.toolbarSequence = new ToolBar();
         Button addParticipant = new Button("Add Participant");
         addParticipant.setOnAction(this::addParticipantHandler);
         Button addAsMessage = new Button("Add Asynchronous Message");
@@ -96,33 +106,32 @@ public class HelloApplication extends Application {
         addResponse.setOnAction(this::addResponseHandler);
         Button addTime = new Button("Add Time");
         addTime.setOnAction(this::addTimeHandler);
-        toolbarSequence.getItems().addAll(addParticipant, addAsMessage, addSyMessage, addResponse, addTime);
-
-        graph.beginUpdate();
+        this.toolbarSequence.getItems().addAll(addParticipant, addAsMessage, addSyMessage, addResponse, addTime);
 
         tabPane = new TabPane();
         Tab classDiagram = new Tab("Class Diagram");
+        classDiagram.setClosable(false);
         Tab addSequence = new Tab("+ Add Sequence Diagram");
 
-        borderPaneClass = new BorderPane();
-        borderPaneClass.setMinWidth(1000);
-        borderPaneClass.setMinHeight(1000);
-        borderPaneClass.setTop(toolbarClass);
-        borderPaneClass.setCenter(graph.getCanvas());
-        primaryStage.setScene(new Scene(borderPaneClass));
+        this.borderPaneClass = new BorderPane();
+        this.borderPaneClass.setMinWidth(1000);
+        this.borderPaneClass.setMinHeight(1000);
+        this.borderPaneClass.setTop(this.toolbarClass);
+        this.borderPaneClass.setCenter(this.graph.getCanvas());
+        primaryStage.setScene(new Scene(this.borderPaneClass));
         primaryStage.show();
 
-        borderPaneSequence = new BorderPane();
-        borderPaneSequence.setMinWidth(1000);
-        borderPaneSequence.setMinHeight(1000);
-        borderPaneSequence.setTop(toolbarSequence);
+        this.borderPaneSequence = new BorderPane();
+        this.borderPaneSequence.setMinWidth(1000);
+        this.borderPaneSequence.setMinHeight(1000);
+        this.borderPaneSequence.setTop(this.toolbarSequence);
 
-        borderPaneSequence.setCenter(seqDiagram.getCanvas());
-        primaryStage.setScene(new Scene(borderPaneSequence));
+        this.borderPaneSequence.setCenter(this.seqDiagram.getCanvas());
+        primaryStage.setScene(new Scene(this.borderPaneSequence));
         primaryStage.show();
 
-        tabPane.getTabs().add(classDiagram);
-        tabPane.getTabs().add(addSequence);
+        this.tabPane.getTabs().add(classDiagram);
+        this.tabPane.getTabs().add(addSequence);
 
         /*SequenceDiagram.ActorCell actorA = new SequenceDiagram.ActorCell("Actor A", 400d);
         SequenceDiagram.ActorCell actorB = new SequenceDiagram.ActorCell("Actor B", 400d);
@@ -134,19 +143,20 @@ public class HelloApplication extends Application {
         seqDiagram.addMessage(actorC, actorB, "savedUser");
         seqDiagram.addMessage(actorB, actorA, "noNewEmails");*/
 
-        seqDiagram.layout();
-        addSequence.setContent(borderPaneSequence);
-        classDiagram.setContent(borderPaneClass);
+        this.seqDiagram.layout();
+        addSequence.setContent(this.borderPaneSequence);
+        classDiagram.setContent(this.borderPaneClass);
 
-        graph.beginUpdate();
+        this.graph.beginUpdate();
 
-        borderPaneClass = new BorderPane();
-        borderPaneClass.setTop(tabPane);
-        primaryStage.setMinHeight(1000);
+        this.borderPaneClass = new BorderPane();
+        this.borderPaneClass.setTop(this.tabPane);
+        /*primaryStage.setMinHeight(1000);
         primaryStage.setMaxHeight(1000);
         primaryStage.setMinWidth(1500);
-        primaryStage.setMaxWidth(1500);
-        primaryStage.setScene(new Scene(borderPaneClass));
+        primaryStage.setMaxWidth(1500);*/
+        primaryStage.setFullScreen(true);
+        primaryStage.setScene(new Scene(this.borderPaneClass));
         primaryStage.show();
     }
 
@@ -219,6 +229,36 @@ public class HelloApplication extends Application {
     }
 
     private void undoHandler(ActionEvent event) {
+        this.appController.undo();
+        this.umlProject = appController.getTop();
+
+        List<UMLClass> classes = umlProject.classes;
+
+        if(classes.size() == this.historyCells.size()) {
+            //undo something else
+        } else if(classes.size() < this.historyCells.size()) {
+            this.historyCells.remove(this.historyCells.size()-1);
+            System.out.println("HERE");
+            model.clear();
+            graph.beginUpdate();
+            System.out.println("HERE");
+            System.out.println("HERE");
+            for(int i=0; i < historyCells.size(); i++) {
+                System.out.println("HEREF");
+                model.addCell(historyCells.get(i));
+            }
+            System.out.println("HEREK");
+            graph.endUpdate();
+            this.source = null;
+            this.sourceCC = null;
+            this.sourceAH = null;
+            this.sourceSQ = null;
+            this.destination = null;
+            this.destinationCC = null;
+            this.destinationAH = null;
+            this.destinationSQ = null;
+            System.out.println("HEREL");
+        }
     }
 
     private void addClassDiagramHandler(ActionEvent event) {
@@ -345,8 +385,24 @@ public class HelloApplication extends Application {
     }
 
     private void addClassHandler(ActionEvent event) {
-        ClassController classController = new ClassController("Class" + this.index);
+        String name = "Class" + this.index;
+        ClassController classController = new ClassController(name);
+        UMLProject tmp = new UMLProject(this.umlProject.projectName);
+
+        tmp.sequenceDiagrams = this.umlProject.sequenceDiagrams;
+        try {
+            umlProject.addClass(new UMLClass(name));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        tmp.classes = this.umlProject.classes;
+
+        System.out.println("HELLO CLASSES: " + umlProject.classes.size());
+        appController.addOperation(tmp);
+
         ICell cell = new ClassCell(classController);
+        this.historyCells.add(cell);
 
         classController.addEventHandler(MouseEvent.MOUSE_CLICKED, event1 -> {
             classController.toFront();
