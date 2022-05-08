@@ -14,7 +14,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeLineCap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,14 +121,30 @@ public class SequenceDiagram extends Graph {
         @Override
         public Region getGraphic(Graph graph) {
             Label label = new Label(name);
+            /*Rectangle lifeTime = new Rectangle();
+            lifeTime.getStyleClass().add("life-time");
+            lifeTime.xProperty().bind(label.widthProperty().divide(2));
+            lifeTime.setY(0);
+            lifeTime.widthProperty()*/
+
             Line lifeLine = new Line();
+            Line dots = new Line();
             lifeLine.getStyleClass().add("life-line");
+            dots.getStyleClass().add("life-line");
             lifeLine.startXProperty().bind(label.widthProperty().divide(2));
-            lifeLine.setStartY(0);
+            dots.startXProperty().bind(label.widthProperty().divide(2));
+            lifeLine.setStartY(25);
+            dots.setStartY(10);
             lifeLine.endXProperty().bind(label.widthProperty().divide(2));
+            dots.endXProperty().bind(label.widthProperty().divide(2));
             lifeLine.endYProperty().bind(lifeLineLength);
-            lifeLine.getStrokeDashArray().add(4d);
-            Pane pane = new Pane(label, lifeLine);
+            dots.endYProperty().bind(lifeLineLength.add(20));
+            dots.getStrokeDashArray().addAll(25d, 10d);
+            lifeLine.setStrokeWidth(10);
+            lifeLine.setStroke(Color.BLUE);
+            lifeLine.setStrokeLineCap(StrokeLineCap.SQUARE);
+            //lifeLine.getStrokeDashArray().add(4d);
+            Pane pane = new Pane(label, lifeLine, dots);
             pane.getStyleClass().add("actor-cell");
             return pane;
         }
