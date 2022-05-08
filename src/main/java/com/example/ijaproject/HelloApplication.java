@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -37,18 +38,28 @@ public class HelloApplication extends Application {
     public Graph graph;
     int index = 0;
     public ICell source;
+    public SequenceDiagram.ActorCell sourceSQ;
+    public SequenceDiagram.ActorCell destinationSQ;
+    public String sourceAH;
+    public String destinationAH;
     public ClassController sourceCC;
     public ICell destination;
     public ClassController destinationCC;
     FileHandler fileHandler;
     Stage primaryStage = new Stage();
     private UMLProject umlProject;
+    private SequenceDiagram seqDiagram;
+    private int parIndex = 0;
+
+    private List<SequenceDiagram.ActorCell> actors;
 
     @Override
     public void start(Stage primaryStage) {
         graph = new Graph();
         model = graph.getModel();
         graph.beginUpdate();
+        seqDiagram = new SequenceDiagram();
+        seqDiagram.beginUpdate();
 
         toolbarClass = new ToolBar();
         Button addClass = new Button("Add Class");
@@ -80,7 +91,7 @@ public class HelloApplication extends Application {
         Button addAsMessage = new Button("Add Asynchronous Message");
         addAsMessage.setOnAction(this::addAsMessageHandler);
         Button addSyMessage = new Button("Add Synchronous Message");
-        addSyMessage.setOnAction(this::addSyMesageHandler);
+        addSyMessage.setOnAction(this::addSyMessageHandler);
         Button addResponse = new Button("Add Response");
         addResponse.setOnAction(this::addResponseHandler);
         Button addTime = new Button("Add Time");
@@ -105,7 +116,7 @@ public class HelloApplication extends Application {
         borderPaneSequence.setMinWidth(1000);
         borderPaneSequence.setMinHeight(1000);
         borderPaneSequence.setTop(toolbarSequence);
-        SequenceDiagram seqDiagram = new SequenceDiagram();
+
         borderPaneSequence.setCenter(seqDiagram.getCanvas());
         primaryStage.setScene(new Scene(borderPaneSequence));
         primaryStage.show();
@@ -113,15 +124,15 @@ public class HelloApplication extends Application {
         tabPane.getTabs().add(classDiagram);
         tabPane.getTabs().add(addSequence);
 
-        SequenceDiagram.ActorCell actorA = new SequenceDiagram.ActorCell("Actor A", 400d);
+        /*SequenceDiagram.ActorCell actorA = new SequenceDiagram.ActorCell("Actor A", 400d);
         SequenceDiagram.ActorCell actorB = new SequenceDiagram.ActorCell("Actor B", 400d);
         SequenceDiagram.ActorCell actorC = new SequenceDiagram.ActorCell("Actor C", 400d);
-        Arrays.asList(actorA, actorB, actorC).forEach(actor -> seqDiagram.addActor(actor));
+        Arrays.asList(actorA, actorB, actorC).forEach(actor -> seqDiagram.addActor(actor));*/
 
-        seqDiagram.addMessage(actorA, actorB, "checkEmail");
+        /*seqDiagram.addMessage(actorA, actorB, "checkEmail");
         seqDiagram.addMessage(actorB, actorC, "readSavedUser");
         seqDiagram.addMessage(actorC, actorB, "savedUser");
-        seqDiagram.addMessage(actorB, actorA, "noNewEmails");
+        seqDiagram.addMessage(actorB, actorA, "noNewEmails");*/
 
         seqDiagram.layout();
         addSequence.setContent(borderPaneSequence);
@@ -145,13 +156,66 @@ public class HelloApplication extends Application {
     private void addResponseHandler(ActionEvent event) {
     }
 
-    private void addSyMesageHandler(ActionEvent event) {
+    private void addSyMessageHandler(ActionEvent event) {
+        if(this.sourceSQ != null && this.destinationSQ != null) {
+            this.seqDiagram.addMessage(sourceSQ, destinationSQ, "message");
+            seqDiagram.layout();
+        }
     }
 
     private void addAsMessageHandler(ActionEvent event) {
     }
 
+    public void selectSQ(SequenceDiagram.ActorCell actorCell, String actorName) {
+        if(this.sourceSQ == null && this.sourceAH == null) {
+            this.sourceSQ = actorCell;
+            this.sourceAH = actorName;
+            return;
+        } else if(this.destinationSQ == null) {
+            if(!Objects.equals(sourceAH, actorName)) {
+                this.destinationSQ = actorCell;
+                this.destinationAH = actorName;
+                return;
+            }
+        }
+        if(!Objects.equals(destinationAH, actorName)) {
+            this.sourceSQ = this.destinationSQ;
+            this.sourceAH = this.destinationAH;
+            this.destinationSQ = actorCell;
+            this.destinationAH = actorName;
+        }
+    }
+
     private void addParticipantHandler(ActionEvent event) {
+        String name = "par";
+        if(this.umlProject == null) {
+            name = name + this.parIndex;
+            this.parIndex++;
+        } else if(this.umlProject.classes == null) {
+            name = name + this.parIndex;
+            this.parIndex++;
+        } else {
+            name = this.umlProject.classes.get(0).name;
+        }
+        Pane localPane = new Pane();
+
+        SequenceDiagram.ActorCell participant = new SequenceDiagram.ActorCell(name, 400d, localPane);
+        System.out.println("keke");
+        localPane.addEventHandler(MouseEvent.MOUSE_CLICKED, event1 -> {
+            //participant.pane.toFront();
+            this.selectSQ(participant, participant.getActorName());
+        });
+
+        localPane.addEventHandler(MouseEvent.MOUSE_ENTERED, event2 -> {
+            participant.selected();
+        });
+
+        localPane.addEventHandler(MouseEvent.MOUSE_EXITED, event3 -> {
+            participant.unselected();
+        });
+
+        List.of(participant).forEach(actor -> seqDiagram.addActor(actor));
+        seqDiagram.layout();
     }
 
     private void undoHandler(ActionEvent event) {
@@ -297,8 +361,6 @@ public class HelloApplication extends Application {
     }
 
     private void select(ICell cell, ClassController classController) {
-        System.out.println("HAHAHA");
-
         if(this.source == null && this.sourceCC == null) {
             this.source = cell;
             this.sourceCC = classController;

@@ -1,25 +1,18 @@
 package com.example.ijaproject;
 
 import com.fxgraph.cells.AbstractCell;
-import com.example.ijaproject.MessageEdge;
 import com.fxgraph.graph.Graph;
 import com.fxgraph.graph.ICell;
 import com.fxgraph.graph.IEdge;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.control.Label;
+import javafx.event.EventHandler;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 
 import java.util.ArrayList;
@@ -34,8 +27,8 @@ public class SequenceDiagram extends Graph {
     private List<IActorCell> actors = new ArrayList<>();
     private List<IMessageEdge> messages = new ArrayList<>();
 
-    public void addActor(String actor, double length) {
-        addActor(new ActorCell(actor, new SimpleDoubleProperty(length)));
+    public void addActor(String actor, double length, Pane pane) {
+        addActor(new ActorCell(actor, new SimpleDoubleProperty(length), pane));
     }
 
     public void addActor(IActorCell actor) {
@@ -96,6 +89,8 @@ public class SequenceDiagram extends Graph {
 
         String getName();
 
+
+
     }
 
     public interface IMessageEdge extends IEdge {
@@ -105,22 +100,51 @@ public class SequenceDiagram extends Graph {
     }
 
     public static class ActorCell extends AbstractCell implements IActorCell {
+        private TextField textField;
+        private String name;
+        private DoubleProperty lifeLineLength;
+        public Pane pane;
 
-        private final String name;
-        private final DoubleProperty lifeLineLength;
-
-        public ActorCell(String name, Double lifeLineLength) {
-            this(name, new SimpleDoubleProperty(lifeLineLength));
+        public ActorCell(String name, Double lifeLineLength, Pane pane) {
+            this(name, new SimpleDoubleProperty(lifeLineLength), pane);
         }
 
-        public ActorCell(String name, DoubleProperty lifeLineLength) {
+        public ActorCell(String name, DoubleProperty lifeLineLength, Pane pane) {
             this.name = name;
             this.lifeLineLength = lifeLineLength;
+            this.textField = new TextField();
+            this.pane = pane;
+        }
+
+        public void selected() {
+            this.textField.setStyle("-fx-text-fill: blue;");
+        }
+
+        public void unselected() {
+            this.textField.setStyle("-fx-text-fill: black;");
+        }
+
+        public String getActorName() {
+            return this.name;
+        }
+
+        public DoubleProperty getActorLife() {
+            return this.lifeLineLength;
+        }
+
+        public void updateName(String newName) {
+            this.name = newName;
+        }
+
+        public void updateLife(DoubleProperty newLife) {
+            this.lifeLineLength = newLife;
         }
 
         @Override
         public Region getGraphic(Graph graph) {
-            Label label = new Label(name);
+            this.textField.setText(name);
+
+
             /*Rectangle lifeTime = new Rectangle();
             lifeTime.getStyleClass().add("life-time");
             lifeTime.xProperty().bind(label.widthProperty().divide(2));
@@ -131,33 +155,35 @@ public class SequenceDiagram extends Graph {
             Line dots = new Line();
             lifeLine.getStyleClass().add("life-line");
             dots.getStyleClass().add("life-line");
-            lifeLine.startXProperty().bind(label.widthProperty().divide(2));
-            dots.startXProperty().bind(label.widthProperty().divide(2));
+            lifeLine.startXProperty().bind(this.textField.widthProperty().divide(2));
+            dots.startXProperty().bind(this.textField.widthProperty().divide(2));
             lifeLine.setStartY(35);
             dots.setStartY(25);
-            lifeLine.endXProperty().bind(label.widthProperty().divide(2));
-            dots.endXProperty().bind(label.widthProperty().divide(2));
+            lifeLine.endXProperty().bind(this.textField.widthProperty().divide(2));
+            dots.endXProperty().bind(this.textField.widthProperty().divide(2));
             lifeLine.endYProperty().bind(lifeLineLength);
             dots.endYProperty().bind(lifeLineLength.add(20));
             dots.getStrokeDashArray().addAll(25d, 10d);
             lifeLine.setStrokeWidth(10);
-            lifeLine.setStroke(Color.BLUE);
+            lifeLine.setStroke(Color.web("#89CFF0"));
+            //lifeLine.setStyle("-fx-background-color: ;");
             lifeLine.setStrokeLineCap(StrokeLineCap.SQUARE);
-            Pane pane = new Pane(label, lifeLine, dots);
-            pane.getStyleClass().add("actor-cell");
+
+            this.pane.getChildren().addAll(this.textField, lifeLine, dots);
+            this.pane.getStyleClass().add("actor-cell");
             return pane;
         }
 
         public DoubleBinding getXAnchor(Graph graph) {
             final Region graphic = graph.getGraphic(this);
-            final Label label = (Label) graphic.getChildrenUnmodifiable().get(0);
-            return graphic.layoutXProperty().add(label.widthProperty().divide(2));
+            final TextField textField = (TextField) graphic.getChildrenUnmodifiable().get(0);
+            return graphic.layoutXProperty().add(textField.widthProperty().divide(2));
         }
 
         public DoubleBinding getYAnchor(Graph graph) {
             final Region graphic = graph.getGraphic(this);
-            final Label label = (Label) graphic.getChildrenUnmodifiable().get(0);
-            return graphic.layoutYProperty().add(label.heightProperty().divide(2));
+            final TextField textField = (TextField) graphic.getChildrenUnmodifiable().get(0);
+            return graphic.layoutYProperty().add(textField.heightProperty().divide(2));
         }
 
         public String getName() {
