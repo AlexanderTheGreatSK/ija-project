@@ -214,4 +214,5 @@ public class HelloController {
     public void generalization(ActionEvent actionEvent) {
         Generalization generalization = new Generalization(100,100,150,150, mainGroup);
     }
+    
 }

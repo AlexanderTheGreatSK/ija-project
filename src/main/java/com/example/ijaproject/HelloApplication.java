@@ -11,8 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,10 +42,11 @@ public class HelloApplication extends Application {
     public ICell destination;
     public ClassController destinationCC;
     FileHandler fileHandler;
+    Stage primaryStage = new Stage();
+    private UMLProject umlProject;
 
     @Override
     public void start(Stage primaryStage) {
-        this.fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1SAVED.json");
         graph = new Graph();
         model = graph.getModel();
         graph.beginUpdate();
@@ -139,11 +142,23 @@ public class HelloApplication extends Application {
     }
 
     private void saveHandler(ActionEvent event) {
+        if (this.fileHandler == null) {
+            FileChooser fileChooser = new FileChooser();
+
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            File file = fileChooser.showSaveDialog(primaryStage);
+            fileHandler = new FileHandler(file.toString());
+            fileHandler.save(umlProject);
+        } else {
+            fileHandler.save(umlProject);
+        }
 
     }
 
     private void importHandler(ActionEvent event) {
-        UMLProject umlProject = this.fileHandler.read();
+        this.umlProject = this.fileHandler.read();
         List<UMLClass> lc = umlProject.classes;
 
         List<ClassCell> cells = new ArrayList<>();
