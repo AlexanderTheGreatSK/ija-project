@@ -343,7 +343,6 @@ public class HelloApplication extends Application {
             this.graph.endUpdate();
         }
     }
-    
 
     private void addClassHandler(ActionEvent event) {
         ClassController classController = new ClassController("Class" + this.index);
