@@ -1,6 +1,5 @@
 package com.example.ijaproject;
 
-import com.fxgraph.edges.Edge;
 import com.fxgraph.graph.Graph;
 import com.fxgraph.graph.ICell;
 import com.fxgraph.graph.Model;
@@ -11,8 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,10 +41,11 @@ public class HelloApplication extends Application {
     public ICell destination;
     public ClassController destinationCC;
     FileHandler fileHandler;
+    Stage primaryStage = new Stage();
+    private UMLProject umlProject;
 
     @Override
     public void start(Stage primaryStage) {
-        this.fileHandler = new FileHandler("/home/alexanderthegreat/IdeaProjects/ija-project/proj1SAVED.json");
         graph = new Graph();
         model = graph.getModel();
         graph.beginUpdate();
@@ -51,8 +53,6 @@ public class HelloApplication extends Application {
         toolbarClass = new ToolBar();
         Button addClass = new Button("Add Class");
         addClass.setOnAction(this::addClassHandler);
-        Button addText = new Button("Add Text");
-        addText.setOnAction(this::addTextHandler);
         Button addAssociation = new Button("Add Association");
         addAssociation.setOnAction(this::addAssociationHandler);
         Button addAggregation = new Button("Add Aggregation");
@@ -65,21 +65,26 @@ public class HelloApplication extends Application {
         importClassDiagram.setOnAction(this::importHandler);
         Button saveClassDiagram = new Button("Save");
         saveClassDiagram.setOnAction(this::saveHandler);
-        toolbarClass.getItems().addAll(addClass, addText, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram);
+        Button addSequenceDiagram = new Button("Add Sequence Diagram");
+        addSequenceDiagram.setOnAction(this::addClassDiagramHandler);
+        Button undo = new Button("↶ Undo");
+        undo.setOnAction(this::undoHandler);
+
+        toolbarClass.getItems().addAll(addClass, addAssociation, addAggregation, addComposition, addGeneralization, importClassDiagram, saveClassDiagram, addSequenceDiagram, undo);
 
         graph.beginUpdate();
 
         toolbarSequence = new ToolBar();
         Button addParticipant = new Button("Add Participant");
-        addParticipant.setOnAction(this::addClassHandler);
+        addParticipant.setOnAction(this::addParticipantHandler);
         Button addAsMessage = new Button("Add Asynchronous Message");
-        addAsMessage.setOnAction(this::addTextHandler);
+        addAsMessage.setOnAction(this::addAsMessageHandler);
         Button addSyMessage = new Button("Add Synchronous Message");
-        addSyMessage.setOnAction(this::addAssociationHandler);
+        addSyMessage.setOnAction(this::addSyMesageHandler);
         Button addResponse = new Button("Add Response");
-        addResponse.setOnAction(this::addAggregationHandler);
+        addResponse.setOnAction(this::addResponseHandler);
         Button addTime = new Button("Add Time");
-        addTime.setOnAction(this::addCompositionHandler);
+        addTime.setOnAction(this::addTimeHandler);
         toolbarSequence.getItems().addAll(addParticipant, addAsMessage, addSyMessage, addResponse, addTime);
 
         graph.beginUpdate();
@@ -134,16 +139,53 @@ public class HelloApplication extends Application {
         primaryStage.show();
     }
 
+    private void addTimeHandler(ActionEvent event) {
+    }
+
+    private void addResponseHandler(ActionEvent event) {
+    }
+
+    private void addSyMesageHandler(ActionEvent event) {
+    }
+
+    private void addAsMessageHandler(ActionEvent event) {
+    }
+
+    private void addParticipantHandler(ActionEvent event) {
+    }
+
+    private void undoHandler(ActionEvent event) {
+    }
+
+    private void addClassDiagramHandler(ActionEvent event) {
+    }
+
     public static void main(String[] args) {
         launch();
     }
 
     private void saveHandler(ActionEvent event) {
+        if (this.fileHandler == null) {
+            FileChooser fileChooser = new FileChooser();
+
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            File file = fileChooser.showSaveDialog(primaryStage);
+            fileHandler = new FileHandler(file.toString());
+            fileHandler.save(umlProject);
+        } else {
+            fileHandler.save(umlProject);
+        }
 
     }
 
     private void importHandler(ActionEvent event) {
-        UMLProject umlProject = this.fileHandler.read();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.showOpenDialog(primaryStage);
+
+        this.umlProject = this.fileHandler.read();
+
         List<UMLClass> lc = umlProject.classes;
 
         List<ClassCell> cells = new ArrayList<>();
@@ -237,9 +279,7 @@ public class HelloApplication extends Application {
             this.graph.endUpdate();
         }
     }
-
-    private void addTextHandler(ActionEvent event) {
-    }
+    
 
     private void addClassHandler(ActionEvent event) {
         ClassController classController = new ClassController("Class" + this.index);

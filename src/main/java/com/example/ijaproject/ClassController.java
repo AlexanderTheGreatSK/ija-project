@@ -157,7 +157,9 @@ public class ClassController extends Pane {
 
     private void uiBuild() {
         super.setPrefHeight(183);
+        super.setMinHeight(183);
         super.setPrefWidth(295);
+        super.setMinWidth(295);
         super.styleProperty().set("-fx-background-color: #89CFF0;");
 
         textField = new TextField();
