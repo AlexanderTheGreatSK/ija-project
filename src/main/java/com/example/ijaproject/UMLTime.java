@@ -3,6 +3,13 @@ package com.example.ijaproject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * UMLTime
+ *
+ * Lifetime of a Participant in the sequence diagram
+ * @author xokruc00
+ * @version 2.0
+ */
 public class UMLTime {
     @Expose
     @SerializedName("Index")

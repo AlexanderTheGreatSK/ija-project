@@ -5,6 +5,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * UMLSequenceDiagram
+ *
+ * Parts of a Sequence diagram.
+ *
+ * @author xokruc00
+ * @version 2.0
+ */
 public class UMLSequenceDiagram {
     @Expose
     @SerializedName("Name")
