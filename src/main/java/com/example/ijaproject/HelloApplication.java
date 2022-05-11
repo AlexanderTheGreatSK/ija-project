@@ -17,10 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * HelloApplication
@@ -63,6 +60,8 @@ public class HelloApplication extends Application {
         this.historyCells = new ArrayList<>();
         this.appController = new AppController();
         this.umlProject = new UMLProject("tmp");
+        this.umlProject.sequenceDiagrams = new ArrayList<>();
+        this.umlProject.sequenceDiagrams.add(new UMLSequenceDiagram("yay"));
         this.appController.addOperation(umlProject.clone());
 
         this.graph = new Graph();
@@ -135,16 +134,6 @@ public class HelloApplication extends Application {
         this.tabPane.getTabs().add(classDiagram);
         this.tabPane.getTabs().add(addSequence);
 
-        /*SequenceDiagram.ActorCell actorA = new SequenceDiagram.ActorCell("Actor A", 400d);
-        SequenceDiagram.ActorCell actorB = new SequenceDiagram.ActorCell("Actor B", 400d);
-        SequenceDiagram.ActorCell actorC = new SequenceDiagram.ActorCell("Actor C", 400d);
-        Arrays.asList(actorA, actorB, actorC).forEach(actor -> seqDiagram.addActor(actor));*/
-
-        /*seqDiagram.addMessage(actorA, actorB, "checkEmail");
-        seqDiagram.addMessage(actorB, actorC, "readSavedUser");
-        seqDiagram.addMessage(actorC, actorB, "savedUser");
-        seqDiagram.addMessage(actorB, actorA, "noNewEmails");*/
-
         this.seqDiagram.layout();
         addSequence.setContent(this.borderPaneSequence);
         classDiagram.setContent(this.borderPaneClass);
@@ -153,10 +142,6 @@ public class HelloApplication extends Application {
 
         this.borderPaneClass = new BorderPane();
         this.borderPaneClass.setTop(this.tabPane);
-        /*primaryStage.setMinHeight(1000);
-        primaryStage.setMaxHeight(1000);
-        primaryStage.setMinWidth(1500);
-        primaryStage.setMaxWidth(1500);*/
         primaryStage.setFullScreen(true);
         primaryStage.setScene(new Scene(this.borderPaneClass));
         primaryStage.show();
@@ -203,11 +188,11 @@ public class HelloApplication extends Application {
     }
 
     private void addParticipantHandler(ActionEvent event) {
-        String name = "par";
+        String name = "participant";
         if(this.umlProject == null) {
             name = name + this.parIndex;
             this.parIndex++;
-        } else if(this.umlProject.classes == null) {
+        } else if(this.umlProject.classes == null || this.umlProject.classes.size() == 0) {
             name = name + this.parIndex;
             this.parIndex++;
         } else {
@@ -215,10 +200,10 @@ public class HelloApplication extends Application {
         }
         Pane localPane = new Pane();
 
-        SequenceDiagram.ActorCell participant = new SequenceDiagram.ActorCell(name, 400d, localPane);
-        System.out.println("keke");
+        this.umlProject.sequenceDiagrams.get(0).addParticipant(new UMLParticipant(name));
+
+        SequenceDiagram.ActorCell participant = new SequenceDiagram.ActorCell(name, 400d, localPane, this.umlProject, this.appController);
         localPane.addEventHandler(MouseEvent.MOUSE_CLICKED, event1 -> {
-            //participant.pane.toFront();
             this.selectSQ(participant, participant.getActorName());
         });
 

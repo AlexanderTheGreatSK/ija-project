@@ -17,6 +17,7 @@ import javafx.scene.shape.StrokeLineCap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -35,8 +36,8 @@ public class SequenceDiagram extends Graph {
     private List<IActorCell> actors = new ArrayList<>();
     private List<IMessageEdge> messages = new ArrayList<>();
 
-    public void addActor(String actor, double length, Pane pane) {
-        addActor(new ActorCell(actor, new SimpleDoubleProperty(length), pane));
+    public void addActor(String actor, double length, Pane pane, UMLProject umlProject, AppController appController) {
+        addActor(new ActorCell(actor, new SimpleDoubleProperty(length), pane, umlProject, appController));
     }
 
     public void addActor(IActorCell actor) {
@@ -46,10 +47,10 @@ public class SequenceDiagram extends Graph {
     }
 
     public void addMessage(IActorCell source, IActorCell target, String name) {
-        addMessage(new MessageEdge(source, target, name));
+        addMessagee(new MessageEdge(source, target, name));
     }
 
-    public void addMessage(IMessageEdge edge) {
+    public void addMessagee(IMessageEdge edge) {
         messages.add(edge);
         getModel().addEdge(edge);
         endUpdate();
@@ -94,10 +95,7 @@ public class SequenceDiagram extends Graph {
     }
 
     public interface IActorCell extends ICell {
-
         String getName();
-
-
 
     }
 
@@ -110,15 +108,28 @@ public class SequenceDiagram extends Graph {
     public static class ActorCell extends AbstractCell implements IActorCell {
         private TextField textField;
         private String name;
+        private String oldName;
         private DoubleProperty lifeLineLength;
         public Pane pane;
+        private Line lifeLine;
+        private Line dots;
 
-        public ActorCell(String name, Double lifeLineLength, Pane pane) {
-            this(name, new SimpleDoubleProperty(lifeLineLength), pane);
+        private final String black = "#000000";
+        private final String red = "#ec7063";
+        private final String blue = "#89CFF0";
+        private UMLProject umlProject;
+        private AppController appController;
+
+
+        public ActorCell(String name, Double lifeLineLength, Pane pane, UMLProject umlProject, AppController appController) {
+            this(name, new SimpleDoubleProperty(lifeLineLength), pane, umlProject, appController);
         }
 
-        public ActorCell(String name, DoubleProperty lifeLineLength, Pane pane) {
+        public ActorCell(String name, DoubleProperty lifeLineLength, Pane pane, UMLProject umlProject, AppController appController) {
             this.name = name;
+            this.oldName = name;
+            this.appController = appController;
+            this.umlProject = umlProject;
             this.lifeLineLength = lifeLineLength;
             this.textField = new TextField();
             this.pane = pane;
@@ -152,34 +163,55 @@ public class SequenceDiagram extends Graph {
         public Region getGraphic(Graph graph) {
             this.textField.setText(name);
 
+            this.lifeLine = new Line();
+            this.dots = new Line();
+            this.lifeLine.getStyleClass().add("life-line");
+            this.dots.getStyleClass().add("life-line");
+            this.lifeLine.startXProperty().bind(this.textField.widthProperty().divide(2));
+            this.dots.startXProperty().bind(this.textField.widthProperty().divide(2));
+            this.lifeLine.setStartY(35);
+            this.dots.setStartY(25);
+            this.lifeLine.endXProperty().bind(this.textField.widthProperty().divide(2));
+            this.dots.endXProperty().bind(this.textField.widthProperty().divide(2));
+            this.lifeLine.endYProperty().bind(lifeLineLength);
+            this.dots.endYProperty().bind(lifeLineLength.add(20));
+            this.dots.getStrokeDashArray().addAll(25d, 10d);
+            this.lifeLine.setStrokeWidth(10);
+            this.lifeLine.setStroke(Color.web(blue));
+            this.lifeLine.setStrokeLineCap(StrokeLineCap.SQUARE);
 
-            /*Rectangle lifeTime = new Rectangle();
-            lifeTime.getStyleClass().add("life-time");
-            lifeTime.xProperty().bind(label.widthProperty().divide(2));
-            lifeTime.setY(0);
-            lifeTime.widthProperty()*/
+            textField.textProperty().addListener(e ->  {
+                this.updateName(this.textField.getText());
+            });
 
-            Line lifeLine = new Line();
-            Line dots = new Line();
-            lifeLine.getStyleClass().add("life-line");
-            dots.getStyleClass().add("life-line");
-            lifeLine.startXProperty().bind(this.textField.widthProperty().divide(2));
-            dots.startXProperty().bind(this.textField.widthProperty().divide(2));
-            lifeLine.setStartY(35);
-            dots.setStartY(25);
-            lifeLine.endXProperty().bind(this.textField.widthProperty().divide(2));
-            dots.endXProperty().bind(this.textField.widthProperty().divide(2));
-            lifeLine.endYProperty().bind(lifeLineLength);
-            dots.endYProperty().bind(lifeLineLength.add(20));
-            dots.getStrokeDashArray().addAll(25d, 10d);
-            lifeLine.setStrokeWidth(10);
-            lifeLine.setStroke(Color.web("#89CFF0"));
-            //lifeLine.setStyle("-fx-background-color: ;");
-            lifeLine.setStrokeLineCap(StrokeLineCap.SQUARE);
+            this.textField.focusedProperty().addListener((obs, oldP, newP) -> {
+                String newName = this.textField.getText();
+                if(Objects.equals(newName, oldName)) {
+                    return;
+                }
+                if(umlProject.participantExists(newName)) {
+                    this.lifeLine.setStroke(Color.web(red));
+                } else {
+                    if(!newP ) {
+                        this.lifeLine.setStroke(Color.web(blue));
+                        this.umlProject.getClass(this.oldName).updateName(newName);
+                        this.appController.addOperation(umlProject);
+                        this.oldName = this.getName();
+                    }
+                }
+            });
 
             this.pane.getChildren().addAll(this.textField, lifeLine, dots);
             this.pane.getStyleClass().add("actor-cell");
             return pane;
+        }
+
+        public void setRed() {
+            this.lifeLine.setStroke(Color.web(red));
+        }
+
+        public void setBlue() {
+            this.lifeLine.setStroke(Color.web(blue));
         }
 
         public DoubleBinding getXAnchor(Graph graph) {

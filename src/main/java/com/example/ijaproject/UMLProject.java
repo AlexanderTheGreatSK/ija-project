@@ -48,11 +48,23 @@ public class UMLProject implements Cloneable {
         if(this.classes.isEmpty()) {
             this.classes.add(newClass);
         } else {
-            System.out.println(this.classExists(newClass.name));
             if(this.classExists(newClass.name)) {
                 throw new Exception();
             } else {
                 this.classes.add(newClass);
+            }
+        }
+    }
+
+    public void addParticipant(UMLParticipant newParticipant) throws Exception {
+        if(this.sequenceDiagrams.isEmpty()) {
+            List<UMLParticipant> participants = new ArrayList<>();
+            this.sequenceDiagrams.add(new UMLSequenceDiagram("new1", participants));
+        } else {
+            if(this.participantExists(newParticipant.name)) {
+                throw new Exception();
+            } else {
+                this.sequenceDiagrams.get(0).addParticipant(newParticipant);
             }
         }
     }
@@ -71,6 +83,14 @@ public class UMLProject implements Cloneable {
             return false;
         }
         return true;
+    }
+
+    public boolean participantExists(String name) {
+        if(this.sequenceDiagrams.get(0).participantExists(name)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
