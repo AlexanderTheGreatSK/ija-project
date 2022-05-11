@@ -29,7 +29,7 @@ import java.util.*;
  */
 public class HelloApplication extends Application {
     public BorderPane borderPaneClass;
-    public BorderPane borderPaneSequence;
+    public List<BorderPane> borderPaneSequence;
     public ToolBar toolbarClass;
     public ToolBar toolbarSequence;
     public TabPane tabPane;
@@ -47,9 +47,10 @@ public class HelloApplication extends Application {
     FileHandler fileHandler;
     Stage primaryStage = new Stage();
     private UMLProject umlProject;
-    private SequenceDiagram seqDiagram;
+    private List<SequenceDiagram> seqDiagram;
     private int parIndex = 0;
     private List<ICell> historyCells;
+    private List<Tab> addSequence;
 
     private AppController appController;
 
@@ -58,17 +59,21 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.historyCells = new ArrayList<>();
+        this.addSequence = new ArrayList<>();
         this.appController = new AppController();
         this.umlProject = new UMLProject("tmp");
         this.umlProject.sequenceDiagrams = new ArrayList<>();
         this.umlProject.sequenceDiagrams.add(new UMLSequenceDiagram("yay"));
         this.appController.addOperation(umlProject.clone());
+        this.borderPaneSequence = new ArrayList<>();
+
 
         this.graph = new Graph();
         this.model = graph.getModel();
         this.graph.beginUpdate();
-        this.seqDiagram = new SequenceDiagram();
-        this.seqDiagram.beginUpdate();
+        this.seqDiagram = new ArrayList<>();
+        this.seqDiagram.add(new SequenceDiagram());
+        this.seqDiagram.get(0).beginUpdate();
 
         this.toolbarClass = new ToolBar();
         Button addClass = new Button("Add Class");
@@ -86,7 +91,7 @@ public class HelloApplication extends Application {
         Button saveClassDiagram = new Button("Save");
         saveClassDiagram.setOnAction(this::saveHandler);
         Button addSequenceDiagram = new Button("Add Sequence Diagram");
-        addSequenceDiagram.setOnAction(this::addClassDiagramHandler);
+        addSequenceDiagram.setOnAction(this::addSequenceDiagramHandler);
         Button undo = new Button("↶ Undo");
         undo.setOnAction(this::undoHandler);
         Button random = new Button("Randomize");
@@ -96,7 +101,45 @@ public class HelloApplication extends Application {
 
         this.graph.beginUpdate();
 
-        this.toolbarSequence = new ToolBar();
+
+        tabPane = new TabPane();
+        Tab classDiagram = new Tab("Class Diagram");
+        classDiagram.setClosable(false);
+
+        this.borderPaneClass = new BorderPane();
+        this.borderPaneClass.setMinWidth(1000);
+        this.borderPaneClass.setMinHeight(1000);
+        this.borderPaneClass.setTop(this.toolbarClass);
+        this.borderPaneClass.setCenter(this.graph.getCanvas());
+        primaryStage.setScene(new Scene(this.borderPaneClass));
+        primaryStage.show();
+
+        this.borderPaneSequence.add(new BorderPane());
+        this.borderPaneSequence.get(0).setMinWidth(1000);
+        this.borderPaneSequence.get(0).setMinHeight(1000);
+        this.borderPaneSequence.get(0).setTop(this.toolbarSequence);
+
+        this.borderPaneSequence.get(0).setCenter(this.seqDiagram.get(0).getCanvas());
+        primaryStage.setScene(new Scene(this.borderPaneSequence.get(0)));
+        primaryStage.show();
+
+        this.tabPane.getTabs().add(classDiagram);
+
+        this.seqDiagram.get(0).layout();
+        classDiagram.setContent(this.borderPaneClass);
+
+        this.graph.beginUpdate();
+
+        this.borderPaneClass = new BorderPane();
+        this.borderPaneClass.setTop(this.tabPane);
+        primaryStage.setFullScreen(true);
+        primaryStage.setScene(new Scene(this.borderPaneClass));
+        primaryStage.show();
+    }
+
+    private ToolBar getToolbar() {
+        ToolBar toolBar = new ToolBar();
+
         Button addParticipant = new Button("Add Participant");
         addParticipant.setOnAction(this::addParticipantHandler);
         Button addAsMessage = new Button("Add Asynchronous Message");
@@ -107,43 +150,21 @@ public class HelloApplication extends Application {
         addResponse.setOnAction(this::addResponseHandler);
         Button addTime = new Button("Add Time");
         addTime.setOnAction(this::addTimeHandler);
-        this.toolbarSequence.getItems().addAll(addParticipant, addAsMessage, addSyMessage, addResponse, addTime);
 
-        tabPane = new TabPane();
-        Tab classDiagram = new Tab("Class Diagram");
-        classDiagram.setClosable(false);
-        Tab addSequence = new Tab("+ Add Sequence Diagram");
+        toolBar.getItems().addAll(addParticipant, addAsMessage, addSyMessage, addResponse, addTime);
+        return toolBar;
+    }
 
-        this.borderPaneClass = new BorderPane();
-        this.borderPaneClass.setMinWidth(1000);
-        this.borderPaneClass.setMinHeight(1000);
-        this.borderPaneClass.setTop(this.toolbarClass);
-        this.borderPaneClass.setCenter(this.graph.getCanvas());
-        primaryStage.setScene(new Scene(this.borderPaneClass));
-        primaryStage.show();
+    private void addSequenceDiagramHandler(ActionEvent event) {
+        Tab tab = new Tab("Sequence Diagram");
+        addSequence.add(tab);
+        this.tabPane.getTabs().add(tab);
+        this.borderPaneSequence.add(new BorderPane());
+        this.borderPaneSequence.get(this.borderPaneSequence.size()-1).setTop(getToolbar());
+        this.borderPaneSequence.get(this.borderPaneSequence.size()-1).setCenter(this.seqDiagram.get(this.seqDiagram.size()-1).getCanvas());
+        tab.setContent(this.borderPaneSequence.get(this.borderPaneSequence.size()-1));
 
-        this.borderPaneSequence = new BorderPane();
-        this.borderPaneSequence.setMinWidth(1000);
-        this.borderPaneSequence.setMinHeight(1000);
-        this.borderPaneSequence.setTop(this.toolbarSequence);
-
-        this.borderPaneSequence.setCenter(this.seqDiagram.getCanvas());
-        primaryStage.setScene(new Scene(this.borderPaneSequence));
-        primaryStage.show();
-
-        this.tabPane.getTabs().add(classDiagram);
-        this.tabPane.getTabs().add(addSequence);
-
-        this.seqDiagram.layout();
-        addSequence.setContent(this.borderPaneSequence);
-        classDiagram.setContent(this.borderPaneClass);
-
-        this.graph.beginUpdate();
-
-        this.borderPaneClass = new BorderPane();
-        this.borderPaneClass.setTop(this.tabPane);
-        primaryStage.setFullScreen(true);
-        primaryStage.setScene(new Scene(this.borderPaneClass));
+        primaryStage.setScene(new Scene(this.borderPaneSequence.get(this.borderPaneSequence.size()-1)));
         primaryStage.show();
     }
 
@@ -159,8 +180,8 @@ public class HelloApplication extends Application {
 
     private void addSyMessageHandler(ActionEvent event) {
         if(this.sourceSQ != null && this.destinationSQ != null) {
-            this.seqDiagram.addMessage(sourceSQ, destinationSQ, "message");
-            seqDiagram.layout();
+            this.seqDiagram.get(0).addMessage(sourceSQ, destinationSQ, "message");
+            this.seqDiagram.get(0).layout();
         }
     }
 
@@ -215,8 +236,8 @@ public class HelloApplication extends Application {
             participant.unselected();
         });
 
-        List.of(participant).forEach(actor -> seqDiagram.addActor(actor));
-        seqDiagram.layout();
+        List.of(participant).forEach(actor -> seqDiagram.get(0).addActor(actor));
+        seqDiagram.get(0).layout();
     }
 
     private void undoHandler(ActionEvent event) {
