@@ -14,6 +14,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
+import java.util.Objects;
+
 public class MyArrow extends AbstractEdge {
 
     private final transient StringProperty textProperty = new SimpleStringProperty();
@@ -22,12 +24,40 @@ public class MyArrow extends AbstractEdge {
         super(source, target);
     }
 
+    public String source;
+    public String target;
+    public String operation;
+
     public ArrowGraphic getGraphic(Graph graph) {
         return new ArrowGraphic(graph, this, this.textProperty);
     }
 
     public StringProperty textProperty() {
         return this.textProperty;
+    }
+
+    public void updateSource(String newSource) {
+        System.out.println("KEKE");
+        this.source = newSource;
+        this.rebuildText();
+    }
+
+    public void updateTarget(String newTarget) {
+        this.target = newTarget;
+        this.rebuildText();
+    }
+
+    private void rebuildText() {
+        System.out.println("Target =" + this.target + " Source = " +  this.source);
+        if(Objects.equals(this.operation, "AG")) {
+            this.textProperty.set(this.source + " —> " + this.target + " classifiers are associated");
+        } else if(Objects.equals(this.operation, "AS")) {
+            this.textProperty.set(this.target + " ◇— has collection of " + this.source);
+        } else if(Objects.equals(this.operation, "CO")) {
+            this.textProperty.set(this.target + " ◀▶— has " + this.source);
+        } else if(Objects.equals(this.operation, "GE")) {
+            this.textProperty.set(this.source + " —▷ is generalized by " + this.target);
+        }
     }
 
     public static class ArrowGraphic extends Pane {

@@ -244,16 +244,11 @@ public class HelloApplication extends Application {
             //undo something else
         } else if(classes.size() < this.historyCells.size()) {
             this.historyCells.remove(this.historyCells.size()-1);
-            System.out.println("HERE");
             this.model.clear();
             this.graph.beginUpdate();
-            System.out.println("HERE");
-            System.out.println("HERE");
             for(int i=0; i < this.historyCells.size(); i++) {
-                System.out.println("HEREF");
                 this.model.addCell(this.historyCells.get(i));
             }
-            System.out.println("HEREK");
             this.graph.endUpdate();
             this.source = null;
             this.sourceCC = null;
@@ -263,7 +258,6 @@ public class HelloApplication extends Application {
             this.destinationCC = null;
             this.destinationAH = null;
             this.destinationSQ = null;
-            System.out.println("HEREL");
         }
     }
 
@@ -372,6 +366,14 @@ public class HelloApplication extends Application {
         if(this.source != null && this.destination != null) {
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
             myArrow.textProperty().set(this.sourceCC.getName() + " —▷ is generalized by " + this.destinationCC.getName());
+
+            myArrow.operation = "GE";
+            myArrow.source = this.sourceCC.getName();
+            myArrow.target = this.destinationCC.getName();
+
+            this.sourceCC.addArrow(myArrow, true);
+            this.destinationCC.addArrow(myArrow, false);
+
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }
@@ -381,6 +383,14 @@ public class HelloApplication extends Application {
         if(this.source != null && this.destination != null) {
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
             myArrow.textProperty().set(this.destinationCC.getName() + " ◀▶— has " + this.sourceCC.getName());
+
+            myArrow.operation = "CO";
+            myArrow.target = this.destinationCC.getName();
+            myArrow.source = this.sourceCC.getName();
+
+            this.sourceCC.addArrow(myArrow, true);
+            this.destinationCC.addArrow(myArrow, false);
+
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }
@@ -390,6 +400,14 @@ public class HelloApplication extends Application {
         if(this.source != null && this.destination != null) {
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
             myArrow.textProperty().set(this.destinationCC.getName() + " ◇— has collection of " + this.sourceCC.getName());
+
+            myArrow.operation = "AG";
+            myArrow.source = this.sourceCC.getName();
+            myArrow.target = this.destinationCC.getName();
+
+            this.sourceCC.addArrow(myArrow, true);
+            this.destinationCC.addArrow(myArrow, false);
+
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }
@@ -399,6 +417,13 @@ public class HelloApplication extends Application {
         if(this.source != null && this.destination != null) {
             final MyArrow myArrow = new MyArrow(this.source, this.destination);
             myArrow.textProperty().set(this.sourceCC.getName() + " —> " + this.destinationCC.getName() + " classifiers are associated");
+            myArrow.operation = "AS";
+            myArrow.target = this.destinationCC.getName();
+            myArrow.source = this.sourceCC.getName();
+
+            this.sourceCC.addArrow(myArrow, true);
+            this.destinationCC.addArrow(myArrow, false);
+
             this.model.addEdge(myArrow);
             this.graph.endUpdate();
         }

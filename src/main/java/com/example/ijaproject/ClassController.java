@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +36,10 @@ public class ClassController extends Pane {
     public ListView listViewAddAttribute;
 
     public ListView listViewAddMethod;
+
+    List<TargetSourceHolder> targetSourceHolderList;
+
+    public MyArrow asSource;
 
     /**
      * Method which handles pressing button "+ Method" (onAction="#addMethod").
@@ -150,12 +155,17 @@ public class ClassController extends Pane {
 
     }
 
-    public ClassController(String name) {
-        uiBuild();
-        this.updateName(name);
+    public void addArrow(MyArrow arrow, boolean isSource) {
+        TargetSourceHolder targetSourceHolder = new TargetSourceHolder(arrow, isSource);
+        this.targetSourceHolderList.add(targetSourceHolder);
     }
 
-    private void uiBuild() {
+    public ClassController(String name) {
+        this.targetSourceHolderList = new ArrayList<>();
+        uiBuild(name);
+    }
+
+    private void uiBuild(String name) {
         super.setPrefHeight(183);
         super.setMinHeight(183);
         super.setPrefWidth(280);
@@ -169,7 +179,11 @@ public class ClassController extends Pane {
         textField.prefWidth(258);
         textField.setMinHeight(24);
         textField.setMinWidth(247);
-        textField.setText("Name");
+        textField.setText(name);
+        textField.textProperty().addListener(e ->  {
+            System.out.println("HAHAHAHAHAHA " + this.textField.getText());
+            this.updateName(this.textField.getText());
+        });
 
         buttonAddMethod = new Button();
         buttonAddMethod.defaultButtonProperty();
@@ -225,7 +239,17 @@ public class ClassController extends Pane {
     }
 
     public void updateName(String newName) {
-        this.textField.setText(newName);
+        //this.textField.setText(newName);
+        System.out.println("TSHL:" + this.targetSourceHolderList.size());
+        for(int i=0; i<this.targetSourceHolderList.size(); i++) {
+            System.out.println(this.targetSourceHolderList.get(i).isSource);
+            if(this.targetSourceHolderList.get(i).isSource) {
+                this.targetSourceHolderList.get(i).arrow.updateSource(newName);
+            } else {
+                this.targetSourceHolderList.get(i).arrow.updateTarget(newName);
+            }
+
+        }
     }
 
 

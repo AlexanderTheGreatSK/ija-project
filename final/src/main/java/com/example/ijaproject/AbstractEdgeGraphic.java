@@ -12,6 +12,15 @@ import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+
+/**
+ * AbstractEdgeGraphic
+ *
+ * Part of code for lib com.sirolf2009:fxgraph:0.0.3 (source: https://github.com/sirolf2009/fxgraph)
+ *
+ * @author  sirolf2009, xokruc00, xkovac59 (we edited parts from library as we needed)
+ * @version 2.0
+ */
 public abstract class AbstractEdgeGraphic extends Pane {
     protected final Group group = new Group();
     protected final Text text = new Text();

@@ -60,7 +60,9 @@
     </dependencies>
 
     <build>
-
+		<finalName>ija-app</finalName>
+        <directory>${project.basedir}/build</directory>
+        <outputDirectory>${project.basedir}/build</outputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -70,6 +72,39 @@
                     <source>11</source>
                     <target>11</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>${project.basedir}/dest</outputDirectory>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.example.ijaproject.HelloApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <outputDirectory>${project.basedir}/doc</outputDirectory>
+                    <reportOutputDirectory>${project.basedir}/doc</reportOutputDirectory>
+                    <destDir>${project.basedir}/doc</destDir>
+                    <show>package</show>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+			    </executions>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -86,7 +121,10 @@
                             <jlinkImageName>app</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
+                            <finalName>ija-app</finalName>
                             <noHeaderFiles>true</noHeaderFiles>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
                         </configuration>
                     </execution>
                 </executions>
