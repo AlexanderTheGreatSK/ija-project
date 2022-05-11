@@ -3,6 +3,7 @@ package com.example.ijaproject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,7 @@ public class UMLSequenceDiagram {
 
     public UMLSequenceDiagram(String name) {
         this.name = name;
+        this.participants = new ArrayList<>();
     }
 
     public UMLSequenceDiagram(String name, List<UMLParticipant> participants) {

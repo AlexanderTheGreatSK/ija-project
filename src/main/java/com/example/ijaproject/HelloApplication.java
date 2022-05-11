@@ -199,7 +199,7 @@ public class HelloApplication extends Application {
             name = this.umlProject.classes.get(0).name;
         }
         Pane localPane = new Pane();
-
+        System.out.println(name);
         this.umlProject.sequenceDiagrams.get(0).addParticipant(new UMLParticipant(name));
 
         SequenceDiagram.ActorCell participant = new SequenceDiagram.ActorCell(name, 400d, localPane, this.umlProject, this.appController);
