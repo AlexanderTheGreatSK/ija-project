@@ -313,7 +313,7 @@ public class HelloApplication extends Application {
         OperationHolder holder = null;
 
         for(int i=0; i<lc.size(); i++) {
-            ClassController classController = new ClassController(lc.get(i).name);
+            ClassController classController = new ClassController(lc.get(i).name, this.umlProject, this.appController);
             classController.addAttributeBC(lc.get(i).attributes);
             classController.addMethodsBC(lc.get(i).methods);
             if(lc.get(i).operations != null) {
@@ -431,7 +431,7 @@ public class HelloApplication extends Application {
 
     private void addClassHandler(ActionEvent event) {
         String name = "Class" + this.index;
-        ClassController classController = new ClassController(name);
+        ClassController classController = new ClassController(name, this.umlProject, this.appController);
         UMLProject tmp = new UMLProject(this.umlProject.projectName);
 
         tmp.sequenceDiagrams = this.umlProject.sequenceDiagrams;

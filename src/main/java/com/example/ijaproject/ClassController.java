@@ -1,5 +1,7 @@
 package com.example.ijaproject;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -36,6 +38,11 @@ public class ClassController extends Pane {
     public ListView listViewAddAttribute;
 
     public ListView listViewAddMethod;
+
+    private UMLProject umlProject;
+    private AppController appController;
+
+    private String oldName;
 
     List<TargetSourceHolder> targetSourceHolderList;
 
@@ -77,7 +84,6 @@ public class ClassController extends Pane {
 
         listViewAddAttribute.setItems(observableList);
 
-        System.out.println("X:" + super.parentProperty() + " Y:" + super.getLayoutY());
 
     }
 
@@ -143,7 +149,6 @@ public class ClassController extends Pane {
         listViewAddMethod.setItems(observableList);
 
         text.textProperty().addListener(e ->  {
-            System.out.println(text.getText());
             if(text.getText().equals("")){
                 observableList.remove(text);
                 super.setMinHeight(super.getHeight() - 24);
@@ -160,8 +165,11 @@ public class ClassController extends Pane {
         this.targetSourceHolderList.add(targetSourceHolder);
     }
 
-    public ClassController(String name) {
+    public ClassController(String name, UMLProject umlProject, AppController appController) {
         this.targetSourceHolderList = new ArrayList<>();
+        this.appController = appController;
+        this.umlProject = umlProject;
+        this.oldName = name;
         uiBuild(name);
     }
 
@@ -181,8 +189,15 @@ public class ClassController extends Pane {
         textField.setMinWidth(247);
         textField.setText(name);
         textField.textProperty().addListener(e ->  {
-            System.out.println("HAHAHAHAHAHA " + this.textField.getText());
             this.updateName(this.textField.getText());
+        });
+
+        textField.focusedProperty().addListener((obs, oldP, newP) -> {
+            if(!newP) {
+                this.umlProject.getClass(this.oldName).updateName(textField.getText());
+                this.appController.addOperation(umlProject);
+                this.oldName = this.getName();
+            }
         });
 
         buttonAddMethod = new Button();
@@ -239,10 +254,7 @@ public class ClassController extends Pane {
     }
 
     public void updateName(String newName) {
-        //this.textField.setText(newName);
-        System.out.println("TSHL:" + this.targetSourceHolderList.size());
         for(int i=0; i<this.targetSourceHolderList.size(); i++) {
-            System.out.println(this.targetSourceHolderList.get(i).isSource);
             if(this.targetSourceHolderList.get(i).isSource) {
                 this.targetSourceHolderList.get(i).arrow.updateSource(newName);
             } else {
