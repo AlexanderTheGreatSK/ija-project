@@ -44,6 +44,9 @@ public class ClassController extends Pane {
 
     private String oldName;
 
+    private final String blue = "-fx-background-color: #89CFF0;";
+    private final String red = "-fx-background-color: #ec7063;";
+
     List<TargetSourceHolder> targetSourceHolderList;
 
     public MyArrow asSource;
@@ -178,7 +181,7 @@ public class ClassController extends Pane {
         super.setMinHeight(183);
         super.setPrefWidth(280);
         super.setMinWidth(280);
-        super.styleProperty().set("-fx-background-color: #89CFF0;");
+        super.styleProperty().set(blue);
 
         textField = new TextField();
         textField.setLayoutY(30.0);
@@ -193,10 +196,19 @@ public class ClassController extends Pane {
         });
 
         textField.focusedProperty().addListener((obs, oldP, newP) -> {
-            if(!newP) {
-                this.umlProject.getClass(this.oldName).updateName(textField.getText());
-                this.appController.addOperation(umlProject);
-                this.oldName = this.getName();
+            String newName = this.textField.getText();
+            if(Objects.equals(newName, oldName)) {
+                return;
+            }
+            if(umlProject.classExists(newName)) {
+                super.styleProperty().set(red);
+            } else {
+                if(!newP ) {
+                    super.styleProperty().set(blue);
+                    this.umlProject.getClass(this.oldName).updateName(newName);
+                    this.appController.addOperation(umlProject);
+                    this.oldName = this.getName();
+                }
             }
         });
 
