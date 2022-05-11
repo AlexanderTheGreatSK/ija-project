@@ -16,7 +16,7 @@ public class AppController {
     public AppController() {
         this.operationStack = new ArrayList<>();
         this.top = -1;
-        this.fileHandler = new FileHandler("/home/alex/Dokumenty/ija-project/proj1SAVED.json");
+        this.fileHandler = new FileHandler("/home/huhu/IdeaProjects/ija-project/proj1SAVED.json");
     }
 
     public void addPath(String path) {
