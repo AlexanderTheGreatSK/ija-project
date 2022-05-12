@@ -1,4 +1,4 @@
-package com.example.ijaproject;
+package com.example.ijaproject.graphLib;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;

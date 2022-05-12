@@ -1,4 +1,4 @@
-package com.example.ijaproject;
+package com.example.ijaproject.graphLib;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;

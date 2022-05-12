@@ -1,5 +1,6 @@
-package com.example.ijaproject;
+package com.example.ijaproject.controller;
 
+import com.example.ijaproject.UMLbe.UMLProject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

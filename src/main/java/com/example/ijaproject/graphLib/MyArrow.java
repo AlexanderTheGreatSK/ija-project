@@ -1,4 +1,4 @@
-package com.example.ijaproject;
+package com.example.ijaproject.graphLib;
 
 import com.fxgraph.edges.AbstractEdge;
 import com.fxgraph.graph.Graph;

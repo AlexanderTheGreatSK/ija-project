@@ -1,4 +1,4 @@
-package com.example.ijaproject;
+package com.example.ijaproject.UMLbe;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

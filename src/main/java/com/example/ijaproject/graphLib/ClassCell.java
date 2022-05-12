@@ -1,12 +1,11 @@
-package com.example.ijaproject;
+package com.example.ijaproject.graphLib;
 
+import com.example.ijaproject.UMLbe.UMLAttribute;
 import com.fxgraph.cells.AbstractCell;
 import com.fxgraph.cells.CellGestures;
 import com.fxgraph.graph.Graph;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.List;

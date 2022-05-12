@@ -1,12 +1,17 @@
 package com.example.ijaproject;
 
+import com.example.ijaproject.UMLbe.UMLClass;
+import com.example.ijaproject.UMLbe.UMLParticipant;
+import com.example.ijaproject.UMLbe.UMLProject;
+import com.example.ijaproject.UMLbe.UMLSequenceDiagram;
+import com.example.ijaproject.controller.AppController;
+import com.example.ijaproject.controller.FileHandler;
+import com.example.ijaproject.graphLib.*;
 import com.fxgraph.graph.Graph;
 import com.fxgraph.graph.ICell;
 import com.fxgraph.graph.Model;
 import com.fxgraph.layout.RandomLayout;
 import javafx.application.Application;
-import javafx.beans.Observable;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;

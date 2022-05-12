@@ -1,4 +1,4 @@
-package com.example.ijaproject;
+package com.example.ijaproject.graphLib;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;

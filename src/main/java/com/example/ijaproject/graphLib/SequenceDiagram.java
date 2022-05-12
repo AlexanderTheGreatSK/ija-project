@@ -1,5 +1,7 @@
-package com.example.ijaproject;
+package com.example.ijaproject.graphLib;
 
+import com.example.ijaproject.controller.AppController;
+import com.example.ijaproject.UMLbe.UMLProject;
 import com.fxgraph.cells.AbstractCell;
 import com.fxgraph.graph.Graph;
 import com.fxgraph.graph.ICell;
@@ -7,7 +9,6 @@ import com.fxgraph.graph.IEdge;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;

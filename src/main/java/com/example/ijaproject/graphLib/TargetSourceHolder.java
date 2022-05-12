@@ -1,4 +1,4 @@
-package com.example.ijaproject;
+package com.example.ijaproject.graphLib;
 
 public class TargetSourceHolder {
     public boolean isSource;
